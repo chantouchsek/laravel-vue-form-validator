@@ -78,6 +78,17 @@ class Validator {
 
         this.errors = errors;
     }
+
+    /**
+     * Clear errors on keydown.
+     *
+     * @param {KeyboardEvent} event
+     */
+    onKeydown (event) {
+        if (event.target.name) {
+            this.clear(event.target.name)
+        }
+    }
 }
 
 export default Validator;

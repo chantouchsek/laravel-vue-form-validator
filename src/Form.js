@@ -12,9 +12,7 @@ class Form {
         this.processing = false;
         this.successful = false;
 
-        this.withData(data)
-            .withOptions(options)
-            .withErrors({});
+        this.withData(data).withOptions(options).withErrors({});
     }
 
     withData (data) {
