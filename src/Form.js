@@ -15,6 +15,11 @@ class Form {
         this.withData(data).withOptions(options).withErrors({});
     }
 
+    /**
+     * Get with data
+     * @param data
+     * @returns {Form}
+     */
     withData (data) {
         if (isArray(data)) {
             data = data.reduce((carry, element) => {
@@ -187,21 +192,21 @@ class Form {
         this.successful = false;
 
         return new Promise((resolve, reject) => {
-            this.__http[requestType](
-                url,
-                this.hasFiles() ? objectToFormData(this.data()) : this.data(),
-            )
+            const data = this.hasFiles() ? objectToFormData(this.data()) : this.data();
+            this.__http[requestType](url, data)
                 .then(response => {
                     this.processing = false;
                     this.onSuccess(response.data);
-
                     resolve(response.data);
                 })
-                .catch(error => {
+                .catch(({ response }) => {
                     this.processing = false;
-                    this.onFail(error);
-
-                    reject(error);
+                    if (response) {
+                        this.onFail(response);
+                        reject(response.data)
+                    } else {
+                        reject(new Error('Something went wrong.'))
+                    }
                 });
         });
     }
@@ -256,7 +261,6 @@ class Form {
      */
     onSuccess (data) {
         this.successful = true;
-
         if (this.__options.resetOnSuccess) {
             this.reset();
         }
@@ -265,13 +269,12 @@ class Form {
     /**
      * Handle a failed form submission.
      *
-     * @param {object} data
+     * @param {Object} response
      */
-    onFail (error) {
+    onFail (response) {
         this.successful = false;
-
-        if (error.response && error.response.data.errors) {
-            this.errors.record(error.response.data.errors);
+        if (response && response.data.errors) {
+            this.errors.record(response.data.errors);
         }
     }
 
