@@ -1,7 +1,5 @@
-export { default } from './BaseProxy';
-export { default as BaseProxy } from './BaseProxy';
+import BaseProxy from './BaseProxy';
 
-import Validator from './Validator';
 import ErrorComponent from './views/Error';
 
 class ClassValidator {
@@ -23,7 +21,7 @@ class ClassValidator {
         Vue.mixin({
             beforeCreate() {
                 this.$options.$errors = {};
-                Vue.util.defineReactive(this.$options, '$errors', Validator);
+                Vue.util.defineReactive(this.$options, '$errors', BaseProxy);
                 if (!this.$options.computed) {
                     this.$options.computed = {};
                 }
