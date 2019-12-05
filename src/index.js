@@ -2,8 +2,7 @@ import ErrorValidator from './Validator';
 
 class Validator {
     install(Vue) {
-        const windowAxios = typeof window === 'undefined' ? false : window.axios;
-        const axios = windowAxios || require('axios');
+        const axios = this.$axios || require('axios');
         axios.interceptors.response.use(
             response => {
                 return response;
