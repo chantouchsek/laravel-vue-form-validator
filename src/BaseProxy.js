@@ -12,13 +12,7 @@ class BaseProxy {
     constructor(endpoint, parameters = {}, options = {}) {
         this.endpoint = endpoint;
         this.parameters = parameters;
-        this.withOptions(options).withErrors({});
-    }
-
-    withErrors(errors) {
-        this.errors = new Validator(errors);
-
-        return this;
+        this.withOptions(options);
     }
 
     withOptions(options) {
@@ -187,16 +181,16 @@ class BaseProxy {
      */
     submit(requestType, url, form = null) {
         this.__validateRequestType(requestType);
-        this.errors.flush();
-        this.errors.processing = true;
-        this.errors.successful = false;
+        Validator.flush();
+        Validator.processing = true;
+        Validator.successful = false;
 
         return new Promise((resolve, reject) => {
             const data = this.hasFiles(form) ? objectToFormData(form) : form;
             url = requestType.toUpperCase() === 'GET' ? url + this.getParameterString() : url;
             this.__http[requestType](url, data)
                 .then(response => {
-                    this.errors.processing = false;
+                    Validator.processing = false;
                     this.onSuccess(response.data);
                     resolve(response.data);
                 })
@@ -261,9 +255,9 @@ class BaseProxy {
      * @param {object} data
      */
     onSuccess(data) {
-        this.errors.successful = true;
+        Validator.successful = true;
         if (this.__options.resetOnSuccess) {
-            this.errors.flush();
+            Validator.flush();
         }
     }
 
@@ -273,9 +267,9 @@ class BaseProxy {
      * @param {Object} response
      */
     onFail(response) {
-        this.errors.successful = false;
+        Validator.successful = false;
         if (response && response.data.errors) {
-            this.errors.fill(response.data.errors);
+            Validator.fill(response.data.errors);
         }
     }
 
@@ -285,7 +279,7 @@ class BaseProxy {
      * @param field
      */
     hasError(field) {
-        return this.errors.has(field);
+        return Validator.has(field);
     }
 
     /**
@@ -295,7 +289,7 @@ class BaseProxy {
      * @return {string}
      */
     getError(field) {
-        return this.errors.first(field);
+        return Validator.first(field);
     }
 
     /**
@@ -305,7 +299,7 @@ class BaseProxy {
      * @return {array}
      */
     getErrors(field) {
-        return this.errors.get(field);
+        return Validator.get(field);
     }
 
     __validateRequestType(requestType) {
