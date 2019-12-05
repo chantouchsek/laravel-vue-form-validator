@@ -1,7 +1,7 @@
 import ErrorValidator from './Validator';
 import Vue from 'vue'
 
-const bus = new Vue()
+const bus = new Vue();
 
 class Validator {
     install(Vue) {

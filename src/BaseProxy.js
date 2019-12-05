@@ -1,5 +1,8 @@
 import Validator from './Validator';
+import Vue from 'vue'
 import { guardAgainstReservedFieldName, isFile, merge, objectToFormData } from './util';
+
+const bus = new Vue();
 
 class BaseProxy {
     /**
@@ -32,9 +35,9 @@ class BaseProxy {
             this.onFail = options.onFail;
         }
 
-        const windowAxios = typeof window === 'undefined' ? false : window.axios;
+        const axios = bus.$axios || require('axios');
 
-        this.__http = options.http || windowAxios || require('axios');
+        this.__http = options.http || axios || require('axios');
 
         if (!this.__http) {
             throw new Error(
