@@ -1,14 +1,14 @@
 import axios from 'axios';
-import Form from '../src/Form';
+import BaseProxy from '../src/BaseProxy';
 import MockAdapter from 'axios-mock-adapter';
 import { reservedFieldNames } from '../src/util';
 
 let form;
 let mockAdapter;
 
-describe('Form', () => {
+describe('BaseProxy', () => {
     beforeEach(() => {
-        form = new Form({
+        form = new BaseProxy({
             field1: 'value 1',
             field2: 'value 2',
         });
@@ -17,8 +17,8 @@ describe('Form', () => {
     });
 
     it('is initializable', () => {
-        form = new Form({}, {});
-        form = Form.create({});
+        form = new BaseProxy({}, {});
+        form = BaseProxy.create({});
     });
 
     it('exposes the passed form field values as properties', () => {
@@ -58,7 +58,7 @@ describe('Form', () => {
     });
 
     it('uses a copy for initial values to avoid mutation', () => {
-        form = new Form({ address: { street: 'Samberstraat' } });
+        form = new BaseProxy({ address: { street: 'Samberstraat' } });
 
         form.address.street = 'Langestraat';
 
@@ -66,7 +66,7 @@ describe('Form', () => {
     });
 
     it('resets with a copy for initial values to avoid object mutation', () => {
-        form = new Form({ address: { street: 'Samberstraat' } });
+        form = new BaseProxy({ address: { street: 'Samberstraat' } });
 
         form.address.street = 'Langestraat';
 
@@ -82,7 +82,7 @@ describe('Form', () => {
     });
 
     it('resets with a copy for initial values to avoid array mutation', () => {
-        form = new Form({ jobs: ['developer'] });
+        form = new BaseProxy({ jobs: ['developer'] });
 
         form.jobs.push('designer');
 
@@ -106,12 +106,12 @@ describe('Form', () => {
 
     it("can't be initialized with a reserved field name", () => {
         reservedFieldNames.forEach(fieldName => {
-            expect(() => new Form({ [fieldName]: 'foo' })).toThrow();
+            expect(() => new BaseProxy({ [fieldName]: 'foo' })).toThrow();
         });
     });
 
     it('can be populated with an object', () => {
-        form = new Form({ field: '' });
+        form = new BaseProxy({ field: '' });
 
         form.populate({ field: 'foo' });
 
@@ -119,7 +119,7 @@ describe('Form', () => {
     });
 
     it("can't be populated with fields not present during instantiation", () => {
-        form = new Form({ field: '' });
+        form = new BaseProxy({ field: '' });
 
         form.populate({ field: 'foo', anotherField: 'baz' });
 
@@ -128,7 +128,7 @@ describe('Form', () => {
 
     it("can't be populated with a reserved field name", () => {
         reservedFieldNames.forEach(fieldName => {
-            expect(() => new Form().populate({ [fieldName]: 'foo' })).toThrow();
+            expect(() => new BaseProxy().populate({ [fieldName]: 'foo' })).toThrow();
         });
     });
 
@@ -145,7 +145,7 @@ describe('Form', () => {
     });
 
     it('can accept an array with form field names', () => {
-        form = new Form(['field1', 'field2']);
+        form = new BaseProxy(['field1', 'field2']);
 
         expect(form.data()['field1']).toBe('');
         expect(form.data()['field2']).toBe('');
@@ -154,7 +154,7 @@ describe('Form', () => {
     it('resets the form on success unless the feature is disabled', async () => {
         mockAdapter.onPost('http://example.com/posts').reply(200, {});
 
-        form = new Form({ field: 'value' });
+        form = new BaseProxy({ field: 'value' });
 
         form.field = 'changed';
 
@@ -162,7 +162,7 @@ describe('Form', () => {
 
         expect(form.field).toBe('value');
 
-        form = new Form({ field: 'value' }, { resetOnSuccess: false });
+        form = new BaseProxy({ field: 'value' }, { resetOnSuccess: false });
 
         form.field = 'changed';
 
@@ -182,7 +182,7 @@ describe('Form', () => {
     it('can be successfully completed', async () => {
         mockAdapter.onPost('http://example.com/posts').reply(200, {});
 
-        form = new Form();
+        form = new BaseProxy();
 
         await form.submit('post', 'http://example.com/posts');
 
@@ -190,7 +190,7 @@ describe('Form', () => {
     });
 
     it('can get an error message for a field', () => {
-        form = Form.create({ field1: '', field2: '' }).withErrors({
+        form = BaseProxy.create({ field1: '', field2: '' }).withErrors({
             field1: [],
             field2: ['Field 2 is required', 'Field 2 must be an e-mail'],
         });
@@ -208,17 +208,17 @@ describe('Form', () => {
     it('can accept a custom http instance in options', () => {
         const http = axios.create({ baseURL: 'http://anotherexample.com' });
 
-        form = new Form({}, { http });
+        form = new BaseProxy({}, { http });
 
         expect(form.__http.defaults.baseURL).toBe('http://anotherexample.com');
 
-        form = new Form({});
+        form = new BaseProxy({});
 
         expect(form.__http.defaults.baseURL).toBe(undefined);
     });
 
     it('can override onSuccess and onFail methods by passing it in options', () => {
-        form = new Form({}, { onSuccess: () => 'foo', onFail: () => 'bar' });
+        form = new BaseProxy({}, { onSuccess: () => 'foo', onFail: () => 'bar' });
 
         expect(form.onSuccess()).toBe('foo');
         expect(form.onFail()).toBe('bar');
@@ -277,11 +277,7 @@ describe('Form', () => {
             expect(request.data.get('field1[1]')).toEqual(file2);
             expect(request.data.get('field2')).toBe('value 2');
 
-            expect(getFormDataKeys(request.data)).toEqual([
-                'field1[0]',
-                'field1[1]',
-                'field2',
-            ]);
+            expect(getFormDataKeys(request.data)).toEqual(['field1[0]', 'field1[1]', 'field2']);
             return [200, {}];
         });
 
@@ -293,21 +289,17 @@ describe('Form', () => {
 
         form.field1 = {
             foo: true,
-            bar: false
+            bar: false,
         };
         form.field2 = file;
 
         mockAdapter.onPost('http://example.com/posts').reply(request => {
             expect(request.data).toBeInstanceOf(FormData);
-                expect(request.data.get('field1[foo]')).toBe('1');
+            expect(request.data.get('field1[foo]')).toBe('1');
             expect(request.data.get('field1[bar]')).toBe('0');
             expect(request.data.get('field2')).toEqual(file);
 
-            expect(getFormDataKeys(request.data)).toEqual([
-                'field1[foo]',
-                'field1[bar]',
-                'field2',
-            ]);
+            expect(getFormDataKeys(request.data)).toEqual(['field1[foo]', 'field1[bar]', 'field2']);
             return [200, {}];
         });
 

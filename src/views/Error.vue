@@ -4,17 +4,17 @@
     </div>
 </template>
 <script>
-    export default {
-        props: {
-            input: {
-                type: String,
-                required: true
-            },
-            inputClass: {
-                type: [String, Object],
-                required: false
-            }
+export default {
+    props: {
+        input: {
+            type: String,
+            required: true,
         },
-        name: 'error-message',
-    };
+        inputClass: {
+            type: [String, Object],
+            required: false,
+        },
+    },
+    name: 'error-message',
+};
 </script>

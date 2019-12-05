@@ -5,7 +5,7 @@
 [![Build Status](https://img.shields.io/travis/spatie/form-backend-validation/master.svg?style=flat-square)](https://travis-ci.org/spatie/form-backend-validation)
 [![npm](https://img.shields.io/npm/dt/form-backend-validation.svg?style=flat-square)](https://npmjs.com/package/form-backend-validation)
 
-Wouldn't it be great if you could just use your back end to validate forms on the front end? This package provides a `Form` class that does exactly that. It can post itself to a configured endpoint and manage errors. The class is meant to be used with a Laravel back end.
+Wouldn't it be great if you could just use your back end to validate forms on the front end? This package provides a `BaseProxy` class that does exactly that. It can post itself to a configured endpoint and manage errors. The class is meant to be used with a Laravel back end.
 
 Take a look at the [usage section](#usage) to view a detailed example on how to use it.
 
@@ -32,10 +32,10 @@ You can find an example implementation with Laravel and Vue in the [spatie/form-
 ![Screenshot](https://raw.githubusercontent.com/spatie/form-backend-validation-example-app/master/public/images/screenshot.png)
 
 ```js
-import Form from 'form-backend-validation';
+import BaseProxy from 'form-backend-validation';
 
 // Instantiate a form class with some values
-const form = new Form({
+const form = new BaseProxy({
     field1: 'value 1',
     field2: 'value 2',
     person: {
@@ -45,7 +45,7 @@ const form = new Form({
 });
 
 // A form can also be initiated with an array
-const form = new Form(['field1', 'field2']);
+const form = new BaseProxy(['field1', 'field2']);
 
 // Submit the form, you can also use `.put`, `.patch` and `.delete`
 form.post(anUrl)
@@ -101,7 +101,7 @@ form.setInitialValues();
 
 // Populate a form after its instantiation, the populated fields will override the initial fields
 // Fields not present at instantiation will not be populated
-const form = new Form({
+const form = new BaseProxy({
     field1: '',
     field2: '',
 });
@@ -115,10 +115,10 @@ form.populate({
 
 ### Options
 
-The `Form` class accepts a second `options` parameter.
+The `BaseProxy` class accepts a second `options` parameter.
 
 ```js
-const form = new Form({
+const form = new BaseProxy({
     field1: 'value 1',
     field2: 'value 2',
 }, {
@@ -129,7 +129,7 @@ const form = new Form({
 You can also pass options via a `withOptions` method (this example uses the `create` factory method.
 
 ```
-const form = Form.create()
+const form = BaseProxy.create()
     .withOptions({ resetOnSuccess: false })
     .withData({
         field1: 'value 1',
@@ -153,7 +153,7 @@ method(url: string, data: Object): Promise<Response>
 
 Supported http methods are `get`, `delete`, `head`, `post`, `put` & `patch`.
 
-If you want to see how the http library is used internally, refer to the `Form` class' `submit` method.
+If you want to see how the http library is used internally, refer to the `BaseProxy` class' `submit` method.
 
 ### Working with files
 
