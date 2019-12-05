@@ -1,6 +1,5 @@
 export { default } from './BaseProxy';
 export { default as BaseProxy } from './BaseProxy';
-export { default as Validator } from './Validator';
 
 import Validator from './Validator';
 import ErrorComponent from './views/Error';
