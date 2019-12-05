@@ -1,5 +1,4 @@
 import ErrorValidator from './Validator';
-import BaseProxy from './BaseProxy';
 
 class Validator {
     install(Vue) {
@@ -31,7 +30,5 @@ class Validator {
     }
 }
 
-export default {
-    Validator: new Validator(),
-    BaseProxy: BaseProxy
-};
+export { default as BaseProxy } from './BaseProxy';
+export default new Validator();
