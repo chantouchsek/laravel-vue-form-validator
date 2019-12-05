@@ -4,7 +4,7 @@ export { default as BaseProxy } from './BaseProxy';
 import Validator from './Validator';
 import ErrorComponent from './views/Error';
 
-class Validator {
+class ClassValidator {
     install(Vue) {
         const windowAxios = typeof window === 'undefined' ? false : window.axios;
         const axios = windowAxios || require('axios');
@@ -35,4 +35,4 @@ class Validator {
     }
 }
 
-export default new Validator();
+export default new ClassValidator();
