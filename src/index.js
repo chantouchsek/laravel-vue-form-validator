@@ -1,4 +1,5 @@
 import BaseProxy from './BaseProxy';
+import Validator from './Validator';
 
 class ClassValidator {
     install(Vue) {
@@ -10,7 +11,7 @@ class ClassValidator {
             },
             error => {
                 if (error.response.status === 422) {
-                    Validator.record(error.response.data.errors);
+                    BaseProxy.record(error.response.data.errors);
                 }
                 return Promise.reject(error);
             }
@@ -18,7 +19,7 @@ class ClassValidator {
         Vue.mixin({
             beforeCreate() {
                 this.$options.$errors = {};
-                Vue.util.defineReactive(this.$options, '$errors', BaseProxy);
+                Vue.util.defineReactive(this.$options, '$errors', Validator);
                 if (!this.$options.computed) {
                     this.$options.computed = {};
                 }
