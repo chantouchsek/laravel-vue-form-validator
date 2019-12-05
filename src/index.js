@@ -1,7 +1,7 @@
+import ErrorValidator from './Validator';
 import BaseProxy from './BaseProxy';
-import Validator from './Validator';
 
-class ClassValidator {
+class Validator {
     install(Vue) {
         const windowAxios = typeof window === 'undefined' ? false : window.axios;
         const axios = windowAxios || require('axios');
@@ -11,7 +11,7 @@ class ClassValidator {
             },
             error => {
                 if (error.response.status === 422) {
-                    BaseProxy.record(error.response.data.errors);
+                    ErrorValidator.fill(error.response.data.errors);
                 }
                 return Promise.reject(error);
             }
@@ -19,7 +19,7 @@ class ClassValidator {
         Vue.mixin({
             beforeCreate() {
                 this.$options.$errors = {};
-                Vue.util.defineReactive(this.$options, '$errors', Validator);
+                Vue.util.defineReactive(this.$options, '$errors', ErrorValidator);
                 if (!this.$options.computed) {
                     this.$options.computed = {};
                 }
@@ -31,4 +31,7 @@ class ClassValidator {
     }
 }
 
-export default new ClassValidator();
+export default {
+    Validator: new Validator(),
+    BaseProxy: BaseProxy
+};

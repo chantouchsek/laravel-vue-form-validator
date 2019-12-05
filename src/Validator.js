@@ -1,18 +1,8 @@
 class Validator {
-    /**
-     * Create a new Validator instance.
-     */
-    constructor(errors = {}) {
-        this.record(errors);
-    }
-
-    /**
-     * Get all the errors.
-     *
-     * @return {object}
-     */
-    all() {
-        return this.errors;
+    constructor () {
+        this.processing = false;
+        this.successful = false;
+        this.errors = {}
     }
 
     /**
@@ -20,7 +10,7 @@ class Validator {
      *
      * @param {string} field
      */
-    has(field) {
+    has (field) {
         let hasError = this.errors.hasOwnProperty(field);
 
         if (!hasError) {
@@ -34,49 +24,52 @@ class Validator {
         return hasError;
     }
 
-    first(field) {
+    first (field) {
         return this.get(field)[0];
-    }
-
-    get(field) {
-        return this.errors[field] || [];
     }
 
     /**
      * Determine if we have any errors.
      */
-    any() {
+    any () {
         return Object.keys(this.errors).length > 0;
     }
 
-    /**
-     * Record the new errors.
-     *
-     * @param {object} errors
-     */
-    record(errors = {}) {
-        this.errors = errors;
+    get (field) {
+        return this.errors[field] || [];
+    }
+
+    all () {
+        return this.errors
     }
 
     /**
-     * Clear a specific field, object or all error fields.
-     *
-     * @param {string|null} field
+     * Fill the error object
+     * @param errors
      */
-    clear(field) {
-        if (!field) {
-            this.errors = {};
+    fill (errors = {}) {
+        this.errors = errors
+    }
 
+    flush () {
+        this.errors = {}
+    }
+
+    /**
+     * Clear one or all error fields.
+     *
+     * @param {String|undefined} field
+     */
+    clear (field) {
+        if (!field) {
+            this.flush();
             return;
         }
-
         let errors = Object.assign({}, this.errors);
-
         Object.keys(errors)
             .filter(e => e === field || e.startsWith(`${field}.`) || e.startsWith(`${field}[`))
             .forEach(e => delete errors[e]);
-
-        this.errors = errors;
+        this.fill(errors)
     }
 
     /**
@@ -84,11 +77,12 @@ class Validator {
      *
      * @param {KeyboardEvent} event
      */
-    onKeydown(event) {
+    onKeydown (event) {
         if (event.target.name) {
-            this.clear(event.target.name);
+            this.clear(event.target.name)
         }
     }
+
 }
 
-export default Validator;
+export default new Validator()

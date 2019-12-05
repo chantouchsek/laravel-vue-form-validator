@@ -1,5 +1,5 @@
 import Validator from './Validator';
-import { guardAgainstReservedFieldName, isArray, isFile, merge, objectToFormData } from './util';
+import { guardAgainstReservedFieldName, isFile, merge, objectToFormData } from './util';
 
 class BaseProxy {
     /**
@@ -10,40 +10,9 @@ class BaseProxy {
      * @param {object} options
      */
     constructor(endpoint, parameters = {}, options = {}) {
-        this.processing = false;
-        this.successful = false;
         this.endpoint = endpoint;
         this.parameters = parameters;
-
         this.withOptions(options).withErrors({});
-    }
-
-    /**
-     * Get with data
-     * @param data
-     * @returns {BaseProxy}
-     */
-    withData(data) {
-        if (isArray(data)) {
-            data = data.reduce((carry, element) => {
-                carry[element] = '';
-                return carry;
-            }, {});
-        }
-
-        this.setInitialValues(data);
-
-        this.errors = new Validator();
-        this.processing = false;
-        this.successful = false;
-
-        for (const field in data) {
-            guardAgainstReservedFieldName(field);
-
-            this[field] = data[field];
-        }
-
-        return this;
     }
 
     withErrors(errors) {
@@ -82,47 +51,6 @@ class BaseProxy {
         return this;
     }
 
-    /**
-     * Fetch all relevant data for the form.
-     */
-    data() {
-        const data = {};
-
-        for (const property in this.initial) {
-            data[property] = this[property];
-        }
-
-        return data;
-    }
-
-    /**
-     * Fetch specific data for the form.
-     *
-     * @param {array} fields
-     * @return {object}
-     */
-    only(fields) {
-        return fields.reduce((filtered, field) => {
-            filtered[field] = this[field];
-            return filtered;
-        }, {});
-    }
-
-    /**
-     * Reset the form fields.
-     */
-    reset() {
-        merge(this, this.initial);
-
-        this.errors.clear();
-    }
-
-    setInitialValues(values) {
-        this.initial = {};
-
-        merge(this.initial, values);
-    }
-
     populate(data) {
         Object.keys(data).forEach(field => {
             guardAgainstReservedFieldName(field);
@@ -133,17 +61,6 @@ class BaseProxy {
         });
 
         return this;
-    }
-
-    /**
-     * Clear the form fields.
-     */
-    clear() {
-        for (const field in this.initial) {
-            this[field] = '';
-        }
-
-        this.errors.clear();
     }
 
     /**
@@ -270,16 +187,16 @@ class BaseProxy {
      */
     submit(requestType, url, form = null) {
         this.__validateRequestType(requestType);
-        this.errors.clear();
-        this.processing = true;
-        this.successful = false;
+        this.errors.flush();
+        this.errors.processing = true;
+        this.errors.successful = false;
 
         return new Promise((resolve, reject) => {
             const data = this.hasFiles(form) ? objectToFormData(form) : form;
             url = requestType.toUpperCase() === 'GET' ? url + this.getParameterString() : url;
             this.__http[requestType](url, data)
                 .then(response => {
-                    this.processing = false;
+                    this.errors.processing = false;
                     this.onSuccess(response.data);
                     resolve(response.data);
                 })
@@ -344,9 +261,9 @@ class BaseProxy {
      * @param {object} data
      */
     onSuccess(data) {
-        this.successful = true;
+        this.errors.successful = true;
         if (this.__options.resetOnSuccess) {
-            this.reset();
+            this.errors.flush();
         }
     }
 
@@ -356,9 +273,9 @@ class BaseProxy {
      * @param {Object} response
      */
     onFail(response) {
-        this.successful = false;
+        this.errors.successful = false;
         if (response && response.data.errors) {
-            this.errors.record(response.data.errors);
+            this.errors.fill(response.data.errors);
         }
     }
 
@@ -415,10 +332,6 @@ class BaseProxy {
             .map(key => `${key}=${this.parameters[key]}`);
 
         return parameterStrings.length === 0 ? '' : `?${parameterStrings.join('&')}`;
-    }
-
-    static create(data = {}) {
-        return new BaseProxy().withData(data);
     }
 }
 
