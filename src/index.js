@@ -1,12 +1,9 @@
 import BaseProxy from './BaseProxy';
 
-import ErrorComponent from './views/Error';
-
 class ClassValidator {
     install(Vue) {
         const windowAxios = typeof window === 'undefined' ? false : window.axios;
         const axios = windowAxios || require('axios');
-        Vue.component('error-message', ErrorComponent);
         axios.interceptors.response.use(
             response => {
                 return response;
