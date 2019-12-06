@@ -1,33 +1,34 @@
-import ErrorValidator from './Validator';
+import Validator from './Validator'
+import ErrorComponent from './ErrorComponent'
+import axios from 'axios'
 
-class Validator {
-    install(Vue, options) {
-        const axios = options.$axios || require('axios');
-        axios.interceptors.response.use(
-            response => {
+class FormValidator {
+    install (Vue) {
+        Vue.component('error', ErrorComponent);
+        if (axios) {
+            axios.interceptors.response.use((response) => {
                 return response;
-            },
-            error => {
+            }, (error) => {
                 if (error.response.status === 422) {
-                    ErrorValidator.fill(error.response.data.errors);
+                    Validator.fill(error.response.data.errors)
                 }
                 return Promise.reject(error);
-            }
-        );
+            });
+        }
         Vue.mixin({
-            beforeCreate() {
+            beforeCreate () {
                 this.$options.$errors = {};
-                Vue.util.defineReactive(this.$options, '$errors', ErrorValidator);
+                Vue.util.defineReactive(this.$options, '$errors', Errors);
                 if (!this.$options.computed) {
-                    this.$options.computed = {};
+                    this.$options.computed = {}
                 }
-                this.$options.computed['$errors'] = function() {
+                this.$options.computed["$errors"] = function () {
                     return this.$options.$errors;
                 };
             },
-        });
+        })
     }
 }
 
-export { default as BaseProxy } from './BaseProxy';
-export default new Validator();
+export { default as Validator } from './Validator'
+export default new FormValidator()
