@@ -1,11 +1,8 @@
 import ErrorValidator from './Validator';
-import Vue from 'vue'
-
-const bus = new Vue();
 
 class Validator {
-    install(Vue) {
-        const axios = bus.$axios || require('axios');
+    install(Vue, options) {
+        const axios = options.$axios || require('axios');
         axios.interceptors.response.use(
             response => {
                 return response;
