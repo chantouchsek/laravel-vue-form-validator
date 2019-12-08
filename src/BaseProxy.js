@@ -1,5 +1,5 @@
 import Validator from './Validator';
-import { isFile, objectToFormData } from '~/utils';
+import { isFile, objectToFormData } from './util';
 
 class BaseProxy {
     static $baseUrl;
