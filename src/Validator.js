@@ -1,8 +1,8 @@
 class Validator {
-    constructor () {
+    constructor() {
         this.processing = false;
         this.successful = false;
-        this.errors = {}
+        this.errors = {};
     }
 
     /**
@@ -10,7 +10,7 @@ class Validator {
      *
      * @param {string} field
      */
-    has (field) {
+    has(field) {
         let hasError = this.errors.hasOwnProperty(field);
 
         if (!hasError) {
@@ -24,35 +24,35 @@ class Validator {
         return hasError;
     }
 
-    first (field) {
+    first(field) {
         return this.get(field)[0];
     }
 
     /**
      * Determine if we have any errors.
      */
-    any () {
+    any() {
         return Object.keys(this.errors).length > 0;
     }
 
-    get (field) {
+    get(field) {
         return this.errors[field] || [];
     }
 
-    all () {
-        return this.errors
+    all() {
+        return this.errors;
     }
 
     /**
      * Fill the error object
      * @param errors
      */
-    fill (errors = {}) {
-        this.errors = errors
+    fill(errors = {}) {
+        this.errors = errors;
     }
 
-    flush () {
-        this.errors = {}
+    flush() {
+        this.errors = {};
     }
 
     /**
@@ -60,7 +60,7 @@ class Validator {
      *
      * @param {String|undefined} field
      */
-    clear (field) {
+    clear(field) {
         if (!field) {
             this.flush();
             return;
@@ -69,7 +69,7 @@ class Validator {
         Object.keys(errors)
             .filter(e => e === field || e.startsWith(`${field}.`) || e.startsWith(`${field}[`))
             .forEach(e => delete errors[e]);
-        this.fill(errors)
+        this.fill(errors);
     }
 
     /**
@@ -77,12 +77,11 @@ class Validator {
      *
      * @param {KeyboardEvent} event
      */
-    onKeydown (event) {
+    onKeydown(event) {
         if (event.target.name) {
-            this.clear(event.target.name)
+            this.clear(event.target.name);
         }
     }
-
 }
 
-export default new Validator()
+export default new Validator();

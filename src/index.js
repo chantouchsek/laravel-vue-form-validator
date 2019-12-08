@@ -2,17 +2,20 @@ import Validator from './Validator';
 import axios from 'axios';
 
 class FormValidator {
-    install (Vue) {
-        axios.interceptors.response.use((response) => {
-            return response;
-        }, (error) => {
-            if (error.response.status === 422) {
-                Validator.fill(error.response.data.errors);
+    install(Vue) {
+        axios.interceptors.response.use(
+            response => {
+                return response;
+            },
+            error => {
+                if (error.response.status === 422) {
+                    Validator.fill(error.response.data.errors);
+                }
+                return Promise.reject(error);
             }
-            return Promise.reject(error);
-        });
+        );
         Vue.mixin({
-            beforeCreate () {
+            beforeCreate() {
                 this.$options.$errors = {};
                 Vue.util.defineReactive(this.$options, '$errors', Validator);
                 if (!this.$options.computed) {
@@ -27,4 +30,5 @@ class FormValidator {
 }
 
 export { default as Validator } from './Validator';
+export { default as BaseProxy } from './BaseProxy';
 export default new FormValidator();
