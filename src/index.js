@@ -31,4 +31,5 @@ class FormValidator {
 
 export { default as Validator } from './Validator';
 export { default as BaseProxy } from './BaseProxy';
+export { default as BaseTransformer } from './BaseTransformer';
 export default new FormValidator();
