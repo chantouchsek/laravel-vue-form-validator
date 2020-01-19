@@ -179,7 +179,7 @@ class BaseProxy {
      */
     hasFiles(form) {
         for (const property in form) {
-            if (this.hasFilesDeep(property)) {
+            if (this.hasFilesDeep(form[property])) {
                 return true;
             }
         }
