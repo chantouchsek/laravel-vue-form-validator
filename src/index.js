@@ -7,9 +7,10 @@ class FormValidator {
             response => {
                 return response;
             },
-            error => {
-                if (error.response.status === 422) {
-                    Validator.fill(error.response.data.errors);
+            (error) => {
+                const { status = 0, data } = error.response
+                if (status === 422) {
+                    Validator.fill(data.errors);
                 }
                 return Promise.reject(error);
             }
