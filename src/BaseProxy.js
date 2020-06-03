@@ -168,7 +168,7 @@ class BaseProxy {
                         this.onFail(response);
                         reject(response.data);
                     } else {
-                        reject(new Error('Something went wrong.'));
+                        reject();
                     }
                 });
         });
