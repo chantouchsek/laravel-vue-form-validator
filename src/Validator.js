@@ -99,7 +99,7 @@ class Validator {
      * @returns {function(): boolean}
      */
     isValid() {
-        return this.any()
+        return !!this.any()
     }
 
     /**
