@@ -25,7 +25,7 @@ yarn add laravel-vue-form-validator
 
 ## Usage
 
-```vuejs
+```js
 import Vue from 'vue'
 import FormValidator from 'laravel-vue-form-validator'
 
@@ -39,17 +39,32 @@ Vue.use(FormValidator)
 form-validator.js
 ```
 
-```vuejs
+```js
 import Vue from 'vue'
 import FormValidator from 'laravel-vue-form-validator'
 
 Vue.use(FormValidator)
 ```
+
+## Create Proxies
+
+``base-proxy.js``
+
+```js
+import { BaseProxy } from 'laravel-vue-form-validator'
+
+export default function({ $axios }) {
+  BaseProxy.$http = $axios
+  BaseProxy.$baseUrl = process.env.API_URL + '/api'
+}
+```
+
 ```bash
 nuxt.config.js
 
 plugins: [
     .....
+    { src: '~/plugins/base-proxy', mode: 'all' },
     { src: '~/plugins/form-validator', mode: 'all' },
     .....
 ]
@@ -72,3 +87,184 @@ Validator                   | Description
 **flush()**                 | clear all errors.
 **clear(field)**            | clear specific error by field name.
 **onKeydown(event)**        | event to clear error by event.target.name. (input the has name).
+
+## Using with Vuex
+
+1.Create proxies folder
+
+``NewsProxy.js``
+
+```js
+import { BaseProxy } from 'laravel-vue-form-validator'
+
+class NewsProxy extends BaseProxy {
+  constructor(parameters = {}) {
+    super('news', parameters)
+  }
+}
+
+export default NewsProxy
+```
+
+2.Store
+
+- Create news store
+1. actions.js
+2. getters.js
+3. mutation-types.js
+4. mutations.js
+5. state
+
+---
+actions.js
+```js
+import { ALL } from './mutation-types'
+import { NewsProxy } from '~/proxies'
+import { NewsTransformer, PaginationTransformer } from '~/transformers'
+import { pagination, notify } from '~/utils'
+
+const proxy = new NewsProxy()
+
+const all = async ({ commit, dispatch }, payload = {}) => {
+  const { fn } = payload
+  if (typeof fn === 'function') {
+    await fn(proxy)
+  }
+  try {
+    const { data, meta } = await proxy.all()
+    const all = {
+      items: NewsTransformer.fetchCollection(data),
+      pagination: PaginationTransformer.fetch(meta)
+    }
+    await commit(ALL, all)
+  } catch (e) {
+    const data = { items: [], pagination }
+    await commit(ALL, data)
+    await notify({ response: e })
+  }
+}
+
+export default {
+  all
+}
+```
+---
+getters.js
+```js
+export default {
+  all: (state) => state.all
+}
+```
+
+---
+mutation-types.js
+```js
+export const ALL = 'ALL'
+
+export default { ALL }
+```
+---
+mutations.js
+```js
+import { ALL } from './mutation-types'
+
+export default {
+  [ALL](state, payload = {}) {
+    const { items = [], pagination = {} } = payload
+    state.all = items
+    state.pagination = pagination
+  }
+}
+```
+---
+state.js
+```js
+export default () => ({
+  all: [],
+  pagination: {}
+})
+```
+## How to call in components or pages
+- news.vue pages
+
+It can be called in `mounted()` or `asyncData()`
+
+- `asyncData()`
+```vuejs
+async asyncData({ app, store }) {
+    const { id = null } = app.$auth.user
+    await store.dispatch('news/all', {
+      fn: (proxy) => {
+        proxy
+          .setParameters({
+            userId: id,
+            include: ['categories']
+          })
+          .removeParameters(['page', 'limit'])
+      }
+    })
+}
+```
+
+`mounted()`
+```vuejs
+mounted() {
+    const { id = null } = this.$auth.user
+    this.$store.dispatch('news/all', {
+      fn: (proxy) => {
+        proxy
+          .setParameters({
+            userId: id,
+            include: ['categories']
+          })
+          .removeParameters(['page', 'limit'])
+      }
+    })
+}
+```
+
+You can set or remove any parameters you like.
+
+## Proxy's methods are available
+
+Method                                              | Description
+--------------------------------------------------- | --------------------------------------
+**setParameter(key, value)**                        | Set param by key and value
+**removeParameter(key)**                            | Remove param by key
+**setParameters({ key: value, key1: value1 })**     | Set params by key and value
+**removeParameters([key1, key2])**                  | Remove params by keys
+**removeParameters()**                              | Remove all params
+
+if setParameter that value is empty or null it will remove that param for query string
+
+Be sure to use only once in `mounted()` or `asyncData()` and `asyncData()` is only available in `NuxtJs`
+
+## Use proxy in components
+
+- news/_id.vue pages
+
+```js
+import { NewsProxy } from '~/proxies'
+
+const proxy = new NewsProxy()
+
+export default {
+    methods: {
+        async fetchNews(id) {
+            try {
+              const { data } = await proxy.find(id)
+              this.detail = data
+            } catch (e) {
+              console.log(e)
+            }
+        }
+    },
+    mounted() {
+        this.fetchNews(this.$route.params.id)
+    }
+}
+```
+
+## Validations
+
+- Todo
