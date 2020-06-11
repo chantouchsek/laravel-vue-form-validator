@@ -213,7 +213,7 @@ export default {
 ```
 
 - `mounted()`
-```vuejs
+```js
 export default {
     mounted() {
         const { id = null } = this.$auth.user
@@ -251,7 +251,7 @@ Be sure to use only once in `mounted()` or `asyncData()` and `asyncData()` is on
 
 - news/_id.vue pages
 
-```vuejs
+```js
 import { NewsProxy } from '~/proxies'
 
 const proxy = new NewsProxy()
