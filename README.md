@@ -195,35 +195,39 @@ It can be called in `mounted()` or `asyncData()`
 
 - `asyncData()`
 ```vuejs
-async asyncData({ app, store }) {
-    const { id = null } = app.$auth.user
-    await store.dispatch('news/all', {
-      fn: (proxy) => {
-        proxy
-          .setParameters({
-            userId: id,
-            include: ['categories']
-          })
-          .removeParameters(['page', 'limit'])
-      }
-    })
+export default {
+    async asyncData({ app, store }) {
+        const { id = null } = app.$auth.user
+        await store.dispatch('news/all', {
+          fn: (proxy) => {
+            proxy
+              .setParameters({
+                userId: id,
+                include: ['categories']
+              })
+              .removeParameters(['page', 'limit'])
+          }
+        })
+    }
 }
 ```
 
 - `mounted()`
 ```vuejs
-mounted() {
-    const { id = null } = this.$auth.user
-    this.$store.dispatch('news/all', {
-      fn: (proxy) => {
-        proxy
-          .setParameters({
-            userId: id,
-            include: ['categories']
-          })
-          .removeParameters(['page', 'limit'])
-      }
-    })
+export default {
+    mounted() {
+        const { id = null } = this.$auth.user
+        this.$store.dispatch('news/all', {
+          fn: (proxy) => {
+            proxy
+              .setParameters({
+                userId: id,
+                include: ['categories']
+              })
+              .removeParameters(['page', 'limit'])
+          }
+        })
+    }
 }
 ```
 
@@ -247,7 +251,7 @@ Be sure to use only once in `mounted()` or `asyncData()` and `asyncData()` is on
 
 - news/_id.vue pages
 
-```js
+```vuejs
 import { NewsProxy } from '~/proxies'
 
 const proxy = new NewsProxy()
