@@ -194,7 +194,7 @@ export default () => ({
 It can be called in `mounted()` or `asyncData()`
 
 - `asyncData()`
-```vuejs
+```js
 export default {
     async asyncData({ app, store }) {
         const { id = null } = app.$auth.user
