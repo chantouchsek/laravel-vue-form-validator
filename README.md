@@ -1,9 +1,13 @@
-# An easy way to validate forms using back end logic
+# An easy way to validate forms using backend logic.
 
 [![Latest Version on NPM](https://img.shields.io/npm/v/laravel-vue-form-validator.svg?style=flat-square)](https://npmjs.com/package/laravel-vue-form-validator)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![npm](https://img.shields.io/npm/dt/laravel-vue-form-validator.svg?style=flat-square)](https://npmjs.com/package/laravel-vue-form-validator)
 [![npm](https://img.shields.io/npm/dm/laravel-vue-form-validator.svg?style=flat-square)](https://npmjs.com/package/laravel-vue-form-validator)
+
+🔥  If you use Laravel, this package matches perfectly with [andersao/l5-repository](https://github.com/andersao/l5-repository).
+
+This package helps you quickly to build requests for REST API. Move your logic and backend requests to dedicated classes. Keep your code clean and elegant.
 
 Wouldn't it be great if you could just use your back end to validate forms on the front end? This package provides a
  `BaseProxy` class that does exactly that. It can post itself to a configured endpoint and manage errors. The class
@@ -34,7 +38,7 @@ Vue.use(FormValidator)
 
 ## Nuxt Support
 
-- Create plugin
+- Create a plugin `~/plugins/form-validator.js`
 ```bash
 form-validator.js
 ```
@@ -46,7 +50,7 @@ import FormValidator from 'laravel-vue-form-validator'
 Vue.use(FormValidator)
 ```
 
-## Create Proxies
+- Create Proxies `~/plugis/bas-proxy.js`
 
 ``base-proxy.js``
 
@@ -92,7 +96,7 @@ Validator                   | Description
 
 1.Create proxies folder
 
-``NewsProxy.js``
+``~/proxies/NewsProxy.js``
 
 ```js
 import { BaseProxy } from 'laravel-vue-form-validator'
@@ -206,7 +210,7 @@ async asyncData({ app, store }) {
 }
 ```
 
-`mounted()`
+- `mounted()`
 ```vuejs
 mounted() {
     const { id = null } = this.$auth.user
@@ -268,3 +272,7 @@ export default {
 ## Validations
 
 - Todo
+
+# Contact
+
+Twitter [@DevidCs83](https://twitter.com/DevidCs83)
