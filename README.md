@@ -5,7 +5,10 @@
 [![npm](https://img.shields.io/npm/dt/laravel-vue-form-validator.svg?style=flat-square)](https://npmjs.com/package/laravel-vue-form-validator)
 [![npm](https://img.shields.io/npm/dm/laravel-vue-form-validator.svg?style=flat-square)](https://npmjs.com/package/laravel-vue-form-validator)
 
-Wouldn't it be great if you could just use your back end to validate forms on the front end? This package provides a `BaseProxy` class that does exactly that. It can post itself to a configured endpoint and manage errors. The class is meant to be used with a Laravel back end.
+Wouldn't it be great if you could just use your back end to validate forms on the front end? This package provides a
+ `BaseProxy` class that does exactly that. It can post itself to a configured endpoint and manage errors. The class
+  is meant to be used with a Laravel back end and it doesn't limit that you need only to work with laravel, Ruby on
+   Rail, NodeJs, ExpressJs, or any other languages.
 
 Take a look at the [usage section](#usage) to view a detailed example on how to use it.
 
@@ -56,14 +59,16 @@ It will create ```$errors``` object inside components.
 
 ## Methods are available:
 
-- has(field = null): check specific field error
-- first(field): get message by field name
-- missed(field = null): check if there is no any error of given field name
-- nullState(field = null: false|null of given field
-- any(): check if any errors exist
-- get(field): get specific field
-- all(): get all errors
-- fill(errors = {}): fill the errors object
-- flush(): clear all errors
-- clear(field): clear specific error by field name
-- onKeydown(event): event to clear error by event.target.name. (input the has name)
+Validator                   | Description
+--------------------------- | --------------------------------------
+**has(field = null)**       | check specific field error
+**first(field)**            | get message by field name.
+**missed(field = null)**    | check if there is no any error of given field name.
+**nullState(field = null**  | false|null of given field.
+**any()**                   | check if any errors exist.
+**get(field)**              | get specific field.
+**all()**                   | get all errors.
+**fill(errors = {})**       | fill the errors object.
+**flush()**                 | clear all errors.
+**clear(field)**            | clear specific error by field name.
+**onKeydown(event)**        | event to clear error by event.target.name. (input the has name).

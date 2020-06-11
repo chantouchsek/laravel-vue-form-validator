@@ -20,7 +20,10 @@
     "laravel",
     "form",
     "validation",
-    "server"
+    "server",
+    "Ruby on rail",
+    "Express Validation",
+    "Vue Validation"
   ],
   "author": "Chantouch Sek",
   "license": "MIT",
