@@ -83,7 +83,7 @@ Validator                   | Description
 **has(field = null)**       | check specific field error
 **first(field)**            | get message by field name.
 **missed(field = null)**    | check if there is no any error of given field name.
-**nullState(field = null**  | false|null of given field.
+**nullState(field = null)** | false|null of given field.
 **any()**                   | check if any errors exist.
 **get(field)**              | get specific field.
 **all()**                   | get all errors.

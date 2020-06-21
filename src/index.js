@@ -2,13 +2,13 @@ import Validator from './Validator';
 import axios from 'axios';
 
 class FormValidator {
-    install(Vue) {
+    install(Vue, options = {}) {
         axios.interceptors.response.use(
             response => {
                 return response;
             },
             (error) => {
-                const { status = 0, data } = error.response
+                const { status = 0, data = {} } = error.response
                 if (status === 422) {
                     Validator.fill(data.errors);
                 }
@@ -22,7 +22,7 @@ class FormValidator {
                 if (!this.$options.computed) {
                     this.$options.computed = {};
                 }
-                this.$options.computed['$errors'] = function() {
+                this.$options.computed.$errors = function() {
                     return this.$options.$errors;
                 };
             },

@@ -1,6 +1,14 @@
 {
     "presets": [
-        "es2015"
+        "es2015",
+        ["minify", {
+            "keepFnName": true,
+            "evaluate": false,
+            "mangle": true,
+            "keepClassName": true,
+            "removeConsole": true,
+            "removeDebugger": true
+        }]
     ],
     "plugins": [
         "transform-object-rest-spread",
