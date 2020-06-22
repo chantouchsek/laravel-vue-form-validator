@@ -7,7 +7,7 @@
   "scripts": {
     "build": "rm -rf dist/* && babel src -d dist",
     "test": "jest",
-    "prepublish": "npm run build",
+    "prepublish": "yarn build",
     "format": "prettier --write \"**/*.{css,js,vue}\""
   },
   "repository": {
