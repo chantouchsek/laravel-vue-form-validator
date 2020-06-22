@@ -7,8 +7,8 @@ class FormValidator {
             response => {
                 return response;
             },
-            (error) => {
-                const { status = 0, data = {} } = error.response
+            error => {
+                const { status = 0, data = {} } = error.response;
                 if (status === 422) {
                     Validator.fill(data.errors);
                 }

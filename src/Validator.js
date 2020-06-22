@@ -1,3 +1,5 @@
+import { is, isArray } from './util';
+
 class Validator {
     constructor() {
         this.processing = false;
@@ -8,9 +10,12 @@ class Validator {
     /**
      * Determine if any errors exists for the given field or object.
      *
-     * @param {string|null} field
+     * @param {string|null|Array} field
      */
-    has(field = null) {
+    has(field) {
+        if (isArray(field)) {
+            return is(Object.keys(this.errors), field);
+        }
         let hasError = this.errors.hasOwnProperty(field);
         if (!hasError) {
             const errors = Object.keys(this.errors).filter(
@@ -21,7 +26,20 @@ class Validator {
         return hasError;
     }
 
+    /**
+     * Get first message of field given
+     * @param {Array|string} field
+     * @returns {*}
+     */
     first(field) {
+        if (isArray(field)) {
+            for (let i = 0; i < field.length; i++) {
+                if (!this.errors.hasOwnProperty(field[i])) {
+                    continue;
+                }
+                return this.first(field[i]);
+            }
+        }
         return this.get(field)[0];
     }
 
@@ -30,7 +48,7 @@ class Validator {
      * @param {string|null} field
      */
     missed(field = null) {
-        return !this.has(field)
+        return !this.has(field);
     }
 
     /**
@@ -38,7 +56,7 @@ class Validator {
      * @param {string|null} field
      */
     nullState(field = null) {
-        return this.has(field) ? !this.has(field) : null
+        return this.has(field) ? !this.has(field) : null;
     }
 
     /**
@@ -50,7 +68,7 @@ class Validator {
 
     /**
      * Get field that error
-     * @param field
+     * @param {string} field
      * @returns {*|*[]}
      */
     get(field) {
@@ -83,14 +101,18 @@ class Validator {
     /**
      * Clear one or all error fields.
      *
-     * @param {String|undefined} field
+     * @param {String|undefined|Array} field
      */
     clear(field) {
         if (!field) return this.flush();
         let errors = Object.assign({}, this.errors);
-        Object.keys(errors)
-            .filter(e => e === field || e.startsWith(`${field}.`) || e.startsWith(`${field}[`))
-            .forEach(e => delete errors[e]);
+        if (isArray(field)) {
+            field.forEach(f => this.clear(f));
+        } else {
+            Object.keys(errors)
+                .filter(e => e === field || e.startsWith(`${field}.`) || e.startsWith(`${field}[`))
+                .forEach(e => delete errors[e]);
+        }
         this.fill(errors);
     }
 
@@ -99,7 +121,7 @@ class Validator {
      * @returns {function(): boolean}
      */
     isValid() {
-        return !!this.any()
+        return !!this.any();
     }
 
     /**
@@ -108,8 +130,9 @@ class Validator {
      * @param {KeyboardEvent} event
      */
     onKeydown(event) {
-        if (event.target.name) {
-            this.clear(event.target.name);
+        const { name } = event.target;
+        if (name) {
+            this.clear(name);
         }
     }
 }

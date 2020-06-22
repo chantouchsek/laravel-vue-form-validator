@@ -1,3 +1,5 @@
+import { isMatch } from './matcher';
+
 export function isArray(object) {
     return Object.prototype.toString.call(object) === '[object Array]';
 }
@@ -46,4 +48,17 @@ export function cloneDeep(object) {
     }
 
     return object;
+}
+
+/**
+ * Check if errors exist
+ * @param {Array} errors
+ * @param {Array|string} error
+ * @returns {boolean}
+ */
+export function is(errors, error) {
+    if (typeof error === 'string' && error.match(/[\*\!]/)) {
+        return errors.filter(w => isMatch(w, error)).length > 0;
+    }
+    return Array.isArray(error) ? error.some(w => is(errors, w)) : errors.includes(error);
 }
