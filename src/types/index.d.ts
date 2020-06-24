@@ -112,7 +112,7 @@ export class BaseProxyInstance {
  * The vue-wait Instance
  */
 
-export class FormValidatorInstance {
+export class FormValidatorInstance extends BaseProxyInstance{
     /**
      * Check if field has any error
      * @return {boolean}
