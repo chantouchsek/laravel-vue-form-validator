@@ -217,13 +217,13 @@ export class BaseTransformer {
      * @param {Array} items
      * @memberOf BaseTransformer
      */
-    fetchCollection(items: object[]): object[]
+    static fetchCollection(items: object[]): object[]
 
     /**
      * To loop on items and send back to server api
      * @param items
      */
-    sendCollection(items: object[]): object[]
+    static sendCollection(items: object[]): object[]
 
     /**
      * To transform object item to show client-side
@@ -231,7 +231,7 @@ export class BaseTransformer {
      * @param {Object} item
      * @memberOf BaseTransformer
      */
-    fetch(item: object): object
+    static fetch(item: object): object
 
     /**
      * To transform object send to server
@@ -239,7 +239,7 @@ export class BaseTransformer {
      * @param {Object} item
      * @memberOf BaseTransformer
      */
-    send(item: object): object
+    static send(item: object): object
 }
 
 export class Validator extends FormValidatorInstance{
