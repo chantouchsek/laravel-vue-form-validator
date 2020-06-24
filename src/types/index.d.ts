@@ -18,7 +18,9 @@ export class BaseProxyInstance {
     get $baseUrl(): Function;
     static $baseUrl: string;
     static $http: AxiosStatic;
+}
 
+export class BaseProxy extends BaseProxyInstance{
     /**
      * Get all records
      * @return {Promise}
@@ -192,6 +194,12 @@ export class FormValidatorInstance extends BaseProxyInstance{
      */
     first(attribute: string | string[]): boolean;
 
+    /**
+     * Keyboard event on form
+     * @return self
+     * @param {KeyboardEvent} event
+     * @memberOf BaseProxyInstance
+     */
     onKeydown<T extends Function | AsyncFunction>(event: KeyboardEvent): T;
 }
 
@@ -200,4 +208,20 @@ export interface ErrorsOptions {
     errors: {
         [key: string]: any
     }
+}
+
+export class BaseTransformer {
+    /**
+     * To loop on items and show on client-side
+     * @return {Array}
+     * @param {Array} items
+     * @memberOf BaseTransformer
+     */
+    fetchCollection(items: object[]): object[]
+
+    /**
+     * To loop on items and send back to server api
+     * @param items
+     */
+    sendCollection(items: object[]): object[]
 }
