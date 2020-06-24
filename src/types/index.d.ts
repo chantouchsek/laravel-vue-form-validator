@@ -1,7 +1,6 @@
 import { PluginFunction } from 'vue';
 import { AxiosStatic } from 'axios';
 
-
 type AsyncFunction = ((arg0: any) => Promise<any>) | Promise<any>;
 
 export default class FormValidator extends FormValidatorInstance {

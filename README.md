@@ -38,10 +38,18 @@ Vue.use(FormValidator)
 
 ## Nuxt Support
 
-- Create a plugin `~/plugins/form-validator.js`
-```bash
-form-validator.js
+Put it on top of axios module
+
+```js
+modules: [
+    .........
+   'laravel-vue-form-validator/nuxt',
+   '@nuxtjs/axios',
+    .........
+],
 ```
+
+### Vue plugins
 
 ```js
 import Vue from 'vue'
