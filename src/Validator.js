@@ -1,7 +1,7 @@
 import { is, isArray } from './util';
 
 class Validator {
-    constructor() {
+    constructor(options = {}) {
         this.processing = false;
         this.successful = false;
         this.errors = {};

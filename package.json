@@ -4,6 +4,7 @@
   "description": "An easy way to validate forms using back end logic",
   "main": "dist/index.js",
   "jsnext:main": "src/index.js",
+  "types": "src/types/index.d.ts",
   "scripts": {
     "build": "rm -rf dist/* && babel src -d dist",
     "test": "jest",
@@ -51,5 +52,8 @@
   },
   "jest": {
     "testRegex": "test.js$"
+  },
+  "dependencies": {
+    "vue": "^2.6.11"
   }
 }
