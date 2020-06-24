@@ -1,16 +1,16 @@
 /*
-Nuxt.js module for vue-vlidator
+Nuxt.js module for vue-form-validator
 
 Usage:
-    - Install vue-vlidator package
+    - Install vue-form-validator package
     - Add this into your nuxt.config.js file:
     {
         modules: [
             // Simple usage
-            'vue-vlidator/nuxt'
+            'vue-form-validator/nuxt'
 
             // Optionally passing options in module configuration
-            ['vue-vlidator/nuxt', { locale: 'km' }]
+            ['vue-form-validator/nuxt', { locale: 'km' }]
         ],
 
         // Optionally passing options in module top level configuration
@@ -20,13 +20,13 @@ Usage:
 
 const { resolve } = require('path');
 
-module.exports = function nuxtVueVlidatorModule (moduleOptions) {
-  const options = Object.assign({}, this.options.$vlidator, moduleOptions);
+module.exports = function nuxtVueFormValidatorModule (moduleOptions) {
+  const options = Object.assign({}, this.options.$errors, moduleOptions);
 
   // Register plugin
   this.addPlugin({
-    src: resolve(__dirname, 'vue-vlidator-plugin.template.js'),
-    fileName: 'vue-vlidator-plugin.js',
+    src: resolve(__dirname, 'vue-form-validator-plugin.template.js'),
+    fileName: 'vue-form-validator-plugin.js',
     options: options
   });
 };
