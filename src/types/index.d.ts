@@ -224,4 +224,27 @@ export class BaseTransformer {
      * @param items
      */
     sendCollection(items: object[]): object[]
+
+    /**
+     * To transform object item to show client-side
+     * @return {Object}
+     * @param {Object} item
+     * @memberOf BaseTransformer
+     */
+    fetch(item: object): object
+
+    /**
+     * To transform object send to server
+     * @return {Object}
+     * @param {Object} item
+     * @memberOf BaseTransformer
+     */
+    send(item: object): object
+}
+
+export class Validator extends FormValidatorInstance{
+    constructor(options?: FormValidatorOptions);
+    processing: boolean;
+    successful: boolean;
+    errors: ErrorsOptions;
 }
