@@ -43,7 +43,7 @@ Put it on top of axios module
 ```js
 modules: [
     .........
-   'laravel-vue-form-validator/nuxt',
+   ['laravel-vue-form-validator/nuxt', { baseUrl: process.env.API_URL + '/api' }],
    '@nuxtjs/axios',
     .........
 ],
@@ -58,28 +58,17 @@ import FormValidator from 'laravel-vue-form-validator'
 Vue.use(FormValidator)
 ```
 
-- Create Proxies `~/plugis/bas-proxy.js`
-
-``base-proxy.js``
-
+### Note
+Error response must look like: 
 ```js
-import { BaseProxy } from 'laravel-vue-form-validator'
-
-export default function({ $axios }) {
-  BaseProxy.$http = $axios
-  BaseProxy.$baseUrl = process.env.API_URL + '/api'
+{
+    errors: {
+        field: [
+            'The field is required.',
+            ...,
+        ]
+    }
 }
-```
-
-```bash
-nuxt.config.js
-
-plugins: [
-    .....
-    { src: '~/plugins/base-proxy', mode: 'all' },
-    { src: '~/plugins/form-validator', mode: 'all' },
-    .....
-]
 ```
 
 It will create ```$errors``` object inside components.

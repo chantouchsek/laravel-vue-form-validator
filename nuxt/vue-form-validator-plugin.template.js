@@ -1,10 +1,12 @@
 import Vue from 'vue';
-import FormValidator from 'laravel-vue-form-validator';
+import FormValidator, { BaseProxy } from 'laravel-vue-form-validator';
 
 Vue.use(FormValidator);
 
-export default ({ app }) => {
-    // inject options from module
+export default ({ app, $axios }) => {
     const [pluginOptions] = [<%= serialize(options) %>]
+    const { baseUrl } = pluginOptions || {}
     app.$errors = FormValidator;
+    BaseProxy.$http = $axios;
+    BaseProxy.$baseUrl = baseUrl
 }
