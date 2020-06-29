@@ -1,5 +1,5 @@
 /*
-Nuxt.js module for vue-form-validator
+Nuxt.js module for laravel-vue-form-validator
 
 Usage:
     - Install vue-form-validator package

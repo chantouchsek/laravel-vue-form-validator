@@ -278,7 +278,8 @@ export default {
 
 ## Validations
 
-- Todo
+Can use `vue-vlidator` for client-side validator that inspired by Laravel. 
+[Chantouch/vue-vlidator](https://github.com/Chantouch/vue-vlidator)
 
 # Contact
 
