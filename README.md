@@ -41,13 +41,20 @@ Vue.use(FormValidator)
 Put it on top of axios module
 
 ```js
-modules: [
-    .........
-   ['laravel-vue-form-validator/nuxt', { baseUrl: process.env.API_URL + '/api' }],
-   '@nuxtjs/axios',
-    .........
-],
+export default {
+    modules: [
+       ['laravel-vue-form-validator/nuxt', { baseUrl: process.env.API_URL + '/api' }],
+       '@nuxtjs/axios',
+    ],
+    // Or use as options
+    'vue-form-validator': {
+        baseUrl: process.env.API_URL + '/api'
+    }
+}
 ```
+
+### Note:
+`baseUrl` is required.
 
 ### Vue plugins
 
@@ -60,12 +67,11 @@ Vue.use(FormValidator)
 
 ### Note
 Error response must look like: 
-```js
+```json
 {
-    errors: {
-        field: [
-            'The field is required.',
-            ...,
+    "errors": {
+        "field": [
+            "The field is required."
         ]
     }
 }

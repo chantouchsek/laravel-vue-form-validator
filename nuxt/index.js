@@ -7,21 +7,19 @@ Usage:
     {
         modules: [
             // Simple usage
-            'vue-form-validator/nuxt'
-
+            'laravel-vue-form-validator/nuxt'
             // Optionally passing options in module configuration
-            ['vue-form-validator/nuxt', { locale: 'km' }]
+            ['vue-form-validator/nuxt', { baseUrl: 'http://localhost:3000/api' }]
         ],
-
         // Optionally passing options in module top level configuration
-        vlidator: { locale: 'km' }
+        vue-form-validator: { baseUrl: 'http://localhost:3000/api' }
     }
 */
 
 const { resolve } = require('path');
 
 module.exports = function nuxtVueFormValidatorModule (moduleOptions) {
-  const options = Object.assign({}, this.options.$errors, moduleOptions);
+  const options = Object.assign({}, this.options['vue-form-validator'], moduleOptions);
 
   // Register plugin
   this.addPlugin({
