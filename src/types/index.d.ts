@@ -13,13 +13,24 @@ export default class FormValidator extends FormValidatorInstance {
 
 export class BaseProxyInstance {
     constructor(endpoint: string, parameters: object);
-    get $http(): Function;
-    get $baseUrl(): Function;
     static $baseUrl: string;
     static $http: AxiosStatic;
 }
 
 export class BaseProxy extends BaseProxyInstance{
+    /**
+     * Get all records
+     * @return {Promise|BaseProxyInstance.$http}
+     * @memberOf BaseProxyInstance
+     */
+    get $http(): AsyncFunction;
+
+    /**
+     * Get all records
+     * @return {BaseProxyInstance.$baseUrl|Promise}
+     * @memberOf BaseProxyInstance
+     */
+    get $baseUrl(): AsyncFunction;
     /**
      * Get all records
      * @return {Promise}
