@@ -149,7 +149,7 @@ class BaseProxy {
      * @param {Object|null} form The data that's being send to the API.
      */
     submit(requestType, url, form = null) {
-        const baseUrl = this.$baseUrl + url;
+        const baseUrl = this.$baseUrl ? this.$baseUrl + url : url;
         this.__validateRequestType(requestType);
         Validator.flush();
         Validator.processing = true;

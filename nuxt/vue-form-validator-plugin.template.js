@@ -8,5 +8,7 @@ export default ({ app, $axios }) => {
     const { baseUrl } = pluginOptions || {}
     app.$errors = FormValidator;
     BaseProxy.$http = $axios;
-    BaseProxy.$baseUrl = baseUrl
+    if (pluginOptions && baseUrl) {
+        BaseProxy.$baseUrl = baseUrl
+    }
 }
