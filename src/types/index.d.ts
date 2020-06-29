@@ -5,19 +5,22 @@ type AsyncFunction = ((arg0: any) => Promise<any>) | Promise<any>;
 
 export default class FormValidator extends FormValidatorInstance {
     constructor(options?: FormValidatorOptions);
+
     processing: boolean;
     successful: boolean;
     errors: ErrorsOptions;
+
     static install(): PluginFunction<any>;
 }
 
 export class BaseProxyInstance {
     constructor(endpoint: string, parameters: object);
+
     static $baseUrl: string;
     static $http: AxiosStatic;
 }
 
-export class BaseProxy extends BaseProxyInstance{
+export class BaseProxy extends BaseProxyInstance {
     /**
      * Get all records
      * @return {Promise|BaseProxyInstance.$http}
@@ -31,6 +34,7 @@ export class BaseProxy extends BaseProxyInstance{
      * @memberOf BaseProxyInstance
      */
     get $baseUrl(): AsyncFunction;
+
     /**
      * Get all records
      * @return {Promise}
@@ -92,7 +96,7 @@ export class BaseProxy extends BaseProxyInstance{
      * @param {string|string[]} value
      * @memberOf BaseProxyInstance
      */
-    setParameter(key: string, value?: string|string[]): BaseProxyInstance
+    setParameter(key: string, value?: string | string[]): BaseProxyInstance
 
     /**
      * To remove parameters
@@ -117,21 +121,21 @@ export class BaseProxy extends BaseProxyInstance{
      * @param {FormData|object} form
      * @memberOf BaseProxyInstance
      */
-    submit(requestType: string, url: string, form?: FormData|object): Promise<any>
+    submit(requestType: string, url: string, form?: FormData | object): Promise<any>
 }
 
 /**
  * The vue-wait Instance
  */
 
-export class FormValidatorInstance extends BaseProxyInstance{
+export class FormValidatorInstance extends BaseProxyInstance {
     /**
      * Check if field has any error
      * @return {boolean}
      * @param {string} field
      * @memberOf FormValidatorInstance
      */
-    has(field: string|string[]): boolean;
+    has(field: string | string[]): boolean;
 
     /**
      * Returns boolean value if any errors exists in page.
@@ -147,7 +151,7 @@ export class FormValidatorInstance extends BaseProxyInstance{
      * @param {string} field
      * @memberOf FormValidatorInstance
      */
-    missed(field: string|string[]): boolean;
+    missed(field: string | string[]): boolean;
 
     /**
      * Check if field is null or exist in errors object
@@ -155,7 +159,7 @@ export class FormValidatorInstance extends BaseProxyInstance{
      * @param {string} field
      * @memberOf FormValidatorInstance
      */
-    nullState(field: string|string[]): boolean|null;
+    nullState(field: string | string[]): boolean | null;
 
     /**
      * Get error message by field
@@ -163,7 +167,7 @@ export class FormValidatorInstance extends BaseProxyInstance{
      * @param {string} field
      * @memberOf FormValidatorInstance
      */
-    get(field: string|string[]): string
+    get(field: string | string[]): string
 
     /**
      * Fill errors object
@@ -186,7 +190,7 @@ export class FormValidatorInstance extends BaseProxyInstance{
      * @param field
      * @memberOf FormValidatorInstance
      */
-    clear(field: string|string[]): object
+    clear(field: string | string[]): object
 
     /**
      * Check if there is any errors exist
@@ -213,7 +217,9 @@ export class FormValidatorInstance extends BaseProxyInstance{
     onKeydown<T extends Function | AsyncFunction>(event: KeyboardEvent): T;
 }
 
-export interface FormValidatorOptions {}
+export interface FormValidatorOptions {
+}
+
 export interface ErrorsOptions {
     errors: {
         [key: string]: any
@@ -252,8 +258,9 @@ export class BaseTransformer {
     static send(item: object): object
 }
 
-export class Validator extends FormValidatorInstance{
+export class Validator extends FormValidatorInstance {
     constructor(options?: FormValidatorOptions);
+
     processing: boolean;
     successful: boolean;
     errors: ErrorsOptions;
