@@ -66,7 +66,7 @@ if your axios already defined in `nuxt.config.js`
 ```js
 export default {
     axios: {
-        baseURL: process.env.API_URL + '/api'
+        baseURL: process.env.API_URL
     }
 }
 ```

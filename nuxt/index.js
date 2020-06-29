@@ -7,10 +7,10 @@ Usage:
     {
         modules: [
             // Optionally passing options in module configuration
-            ['vue-form-validator/nuxt', { baseUrl: 'http://localhost:3000', prefix: '/api' }]
+            ['vue-form-validator/nuxt', { baseURL: 'http://localhost:3000', prefix: '/api' }]
         ],
         // Optionally passing options in module top level configuration
-        vueFormValidator: { baseUrl: 'http://localhost:3000', prefix: '/api' }
+        vueFormValidator: { baseURL: 'http://localhost:3000', prefix: '/api' }
     }
 */
 
