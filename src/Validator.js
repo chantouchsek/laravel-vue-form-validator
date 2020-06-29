@@ -2,9 +2,11 @@ import { is, isArray } from './util';
 
 class Validator {
     constructor(options = {}) {
+        const defaults = { ...options }
         this.processing = false;
         this.successful = false;
         this.errors = {};
+        this.options = defaults
     }
 
     /**

@@ -47,7 +47,7 @@ export default {
        '@nuxtjs/axios',
     ],
     // Or use as options
-    'vue-form-validator': {
+    vueFormValidator: {
         baseUrl: process.env.API_URL + '/api'
     }
 }
