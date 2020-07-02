@@ -1,12 +1,12 @@
 import { is, isArray } from './util';
 
 class Validator {
-    constructor(options = {}) {
-        const defaults = { ...options }
+    constructor (options = {}) {
+        const defaults = { ...options };
         this.processing = false;
         this.successful = false;
         this.errors = {};
-        this.options = defaults
+        this.options = defaults;
     }
 
     /**
@@ -14,14 +14,14 @@ class Validator {
      *
      * @param {string|null|Array} field
      */
-    has(field) {
+    has (field) {
         if (isArray(field)) {
             return is(Object.keys(this.errors), field);
         }
         let hasError = this.errors.hasOwnProperty(field);
         if (!hasError) {
             const errors = Object.keys(this.errors).filter(
-                e => e.startsWith(`${field}.`) || e.startsWith(`${field}[`)
+                e => e.startsWith(`${field}.`) || e.startsWith(`${field}[`),
             );
             hasError = errors.length > 0;
         }
@@ -33,7 +33,7 @@ class Validator {
      * @param {Array|string} field
      * @returns {*}
      */
-    first(field) {
+    first (field) {
         if (isArray(field)) {
             for (let i = 0; i < field.length; i++) {
                 if (!this.errors.hasOwnProperty(field[i])) {
@@ -49,7 +49,7 @@ class Validator {
      * Missed field method
      * @param {string|null} field
      */
-    missed(field = null) {
+    missed (field = null) {
         return !this.has(field);
     }
 
@@ -57,14 +57,14 @@ class Validator {
      * Missed field method
      * @param {string|null} field
      */
-    nullState(field = null) {
+    nullState (field = null) {
         return this.has(field) ? !this.has(field) : null;
     }
 
     /**
      * Determine if we have any errors.
      */
-    any() {
+    any () {
         return Object.keys(this.errors).length > 0;
     }
 
@@ -73,7 +73,7 @@ class Validator {
      * @param {string} field
      * @returns {*|*[]}
      */
-    get(field) {
+    get (field) {
         return this.errors[field] || [];
     }
 
@@ -81,7 +81,7 @@ class Validator {
      * Get all errors
      * @returns {{}}
      */
-    all() {
+    all () {
         return this.errors;
     }
 
@@ -89,30 +89,34 @@ class Validator {
      * Fill the error object
      * @param errors
      */
-    fill(errors = {}) {
+    fill (errors = {}) {
         this.errors = errors;
     }
 
     /**
      * Flush error
      */
-    flush() {
+    flush () {
         this.errors = {};
     }
 
     /**
      * Clear one or all error fields.
      *
-     * @param {String|undefined|Array} field
+     * @param {String|undefined|Array} attribute
      */
-    clear(field) {
-        if (!field) return this.flush();
+    clear (attribute) {
+        if (!attribute) return this.flush();
         let errors = Object.assign({}, this.errors);
-        if (isArray(field)) {
-            field.forEach(f => this.clear(f));
+        if (isArray(attribute)) {
+            attribute.map(field => {
+                Object.keys(errors)
+                    .filter(e => e === field || e.startsWith(`${field}.`) || e.startsWith(`${field}[`))
+                    .forEach(e => delete errors[e]);
+            });
         } else {
             Object.keys(errors)
-                .filter(e => e === field || e.startsWith(`${field}.`) || e.startsWith(`${field}[`))
+                .filter(e => e === attribute || e.startsWith(`${attribute}.`) || e.startsWith(`${attribute}[`))
                 .forEach(e => delete errors[e]);
         }
         this.fill(errors);
@@ -122,7 +126,7 @@ class Validator {
      * Check if form still has error
      * @returns {function(): boolean}
      */
-    isValid() {
+    isValid () {
         return !!this.any();
     }
 
@@ -130,12 +134,16 @@ class Validator {
      * Clear errors on keydown.
      *
      * @param {KeyboardEvent} event
+     * @param {string} prefix
      */
-    onKeydown(event) {
+    onKeydown (event, prefix= '') {
         const { name } = event.target;
-        if (name) {
-            this.clear(name);
+        if (!name) return;
+        let name2 = '';
+        if (prefix) {
+            name2 = `${prefix}.${name}`;
         }
+        this.clear([name, name2]);
     }
 }
 

@@ -212,9 +212,10 @@ export class FormValidatorInstance extends BaseProxyInstance {
      * Keyboard event on form
      * @return self
      * @param {KeyboardEvent} event
+     * @param {string} prefix
      * @memberOf BaseProxyInstance
      */
-    onKeydown<T extends Function | AsyncFunction>(event: KeyboardEvent): T;
+    onKeydown<T extends Function | AsyncFunction>(event: KeyboardEvent, prefix: string): T;
 }
 
 export interface FormValidatorOptions {

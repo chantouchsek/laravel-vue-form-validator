@@ -3,6 +3,8 @@ import axios from 'axios';
 
 class FormValidator {
     install(Vue, options = {}) {
+        if (install.installed) return
+        install.installed = true
         axios.interceptors.response.use(
             response => {
                 return response;
