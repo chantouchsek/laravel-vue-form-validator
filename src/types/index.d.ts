@@ -130,6 +130,13 @@ export class BaseProxy extends BaseProxyInstance {
 
 export class FormValidatorInstance extends BaseProxyInstance {
     /**
+     * Get all errors object
+     * @return {object}
+     * @memberOf FormValidatorInstance
+     */
+    all(): object[];
+
+    /**
      * Check if field has any error
      * @return {boolean}
      * @param {string} field
@@ -212,10 +219,10 @@ export class FormValidatorInstance extends BaseProxyInstance {
      * Keyboard event on form
      * @return self
      * @param {KeyboardEvent} event
-     * @param {string} prefix
+     * @param {string|null} prefix
      * @memberOf BaseProxyInstance
      */
-    onKeydown<T extends Function | AsyncFunction>(event: KeyboardEvent, prefix: string): T;
+    onKeydown<T extends Function | AsyncFunction>(event?: KeyboardEvent, prefix?: string): T;
 }
 
 export interface FormValidatorOptions {
