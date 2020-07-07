@@ -11,6 +11,13 @@ export default class FormValidator extends FormValidatorInstance {
     errors: ErrorsOptions;
 
     static install(): PluginFunction<any>;
+
+    /**
+     * To clear all errors
+     * @return string|object
+     * @memberOf FormValidatorInstance
+     */
+    flush(): string
 }
 
 export class BaseProxyInstance {
@@ -183,13 +190,6 @@ export class FormValidatorInstance extends BaseProxyInstance {
      * @memberOf FormValidatorInstance
      */
     fill(errors: object): object
-
-    /**
-     * To clear all errors
-     * @return string|object
-     * @memberOf FormValidatorInstance
-     */
-    flush(): string
 
     /**
      * To clear specific field from errors, if field null or undefined it will clear all errors
