@@ -37,12 +37,7 @@ module.exports = function nuxtVueFormValidatorModule (moduleOptions = {}) {
         fileName: 'vue-form-validator-plugin.js',
         options,
     });
-    if (!this.options.build.transpile) {
-        this.options.build.transpile = []
-    }
-    if (!this.options.build.transpile.includes('escape-string-regexp')) {
-        this.options.build.transpile.push('escape-string-regexp')
-    }
+    this.options.build.transpile.push(/^escape-string-regexp/)
 };
 
 // required by nuxt
