@@ -192,6 +192,13 @@ export class FormValidatorInstance extends BaseProxyInstance {
     fill(errors: object): object
 
     /**
+     * Fill message by key/value
+     * @param {string} attribute
+     * @param {string|[]} message
+     */
+    fillKey(attribute: string, message?: string | string[]): object
+
+    /**
      * To clear specific field from errors, if field null or undefined it will clear all errors
      * @return object
      * @param field
