@@ -1,10 +1,14 @@
 {
   "name": "laravel-vue-form-validator",
-  "version": "0.0.20-beta-20",
+  "version": "0.0.20-beta.21",
   "description": "An easy way to validate forms using back end logic",
   "main": "dist/index.js",
-  "jsnext:main": "src/index.js",
-  "types": "src/types/index.d.ts",
+  "types": "types/index.d.ts",
+  "files": [
+    "dist",
+    "types",
+    "nuxt"
+  ],
   "scripts": {
     "build": "rm -rf dist/* && babel src -d dist",
     "test": "jest",

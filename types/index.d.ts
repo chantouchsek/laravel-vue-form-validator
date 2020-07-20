@@ -11,13 +11,6 @@ export default class FormValidator extends FormValidatorInstance {
     errors: ErrorsOptions;
 
     static install(): PluginFunction<any>;
-
-    /**
-     * To clear all errors
-     * @return string|object
-     * @memberOf FormValidatorInstance
-     */
-    flush(): string
 }
 
 export class BaseProxyInstance {
@@ -195,6 +188,7 @@ export class FormValidatorInstance extends BaseProxyInstance {
      * Fill message by key/value
      * @param {string} attribute
      * @param {string|[]} message
+     * @memberOf FormValidatorInstance
      */
     fillKey(attribute: string, message?: string | string[]): object
 
@@ -221,6 +215,13 @@ export class FormValidatorInstance extends BaseProxyInstance {
      * @memberOf FormValidatorInstance
      */
     first(attribute: string | string[]): boolean;
+
+    /**
+     * To clear all errors
+     * @return string|object
+     * @memberOf FormValidatorInstance
+     */
+    flush(): string
 
     /**
      * Keyboard event on form
