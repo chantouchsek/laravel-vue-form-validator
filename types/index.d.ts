@@ -11,6 +11,13 @@ export default class FormValidator extends FormValidatorInstance {
     errors: ErrorsOptions;
 
     static install(): PluginFunction<any>;
+
+    /**
+     * To clear all errors
+     * @return string|object
+     * @memberOf FormValidator
+     */
+    flush(): string
 }
 
 export class BaseProxyInstance {
@@ -228,7 +235,7 @@ export class FormValidatorInstance extends BaseProxyInstance {
      * @return self
      * @param {KeyboardEvent} event
      * @param {string|null} prefix
-     * @memberOf BaseProxyInstance
+     * @memberOf FormValidatorInstance
      */
     onKeydown<T extends Function | AsyncFunction>(event?: KeyboardEvent, prefix?: string): T;
 }
@@ -254,6 +261,7 @@ export class BaseTransformer {
     /**
      * To loop on items and send back to server api
      * @param items
+     * @memberOf BaseTransformer
      */
     static sendCollection(items: object[]): object[]
 
