@@ -4,21 +4,22 @@ let errors;
 
 describe('Validator', () => {
     beforeEach(() => {
-        errors = new Validator();
+        errors = Validator;
     });
+    afterEach(() => {
+        errors.clear()
+    })
 
     it('can determine if there are any errors', () => {
         expect(errors.any()).toBe(false);
-
-        errors.record({ first_name: ['Value is required'] });
-
+        errors.fill({ first_name: ['Value is required'] });
         expect(errors.any()).toBe(true);
     });
 
     it('can determine if a given field or object has any errors', () => {
         expect(errors.any()).toBe(false);
 
-        errors.record({
+        errors.fill({
             first_name: ['Value is required'],
             'person.0.first_name': ['Value is required'],
         });
@@ -31,7 +32,7 @@ describe('Validator', () => {
     it('can get all errors', () => {
         const allErrors = { first_name: ['Value is required'] };
 
-        errors.record(allErrors);
+        errors.fill(allErrors);
 
         expect(errors.all()).toEqual(allErrors);
     });
@@ -39,7 +40,7 @@ describe('Validator', () => {
     it('can get a specific error', () => {
         expect(errors.any()).toBe(false);
 
-        errors.record({ first_name: ['Value is required'] });
+        errors.fill({ first_name: ['Value is required'] });
 
         expect(errors.first('first_name')).toEqual('Value is required');
 
@@ -47,7 +48,7 @@ describe('Validator', () => {
     });
 
     it('can clear all the errors', () => {
-        errors.record({
+        errors.fill({
             first_name: ['Value is required'],
             last_name: ['Value is required'],
         });
@@ -60,7 +61,7 @@ describe('Validator', () => {
     });
 
     it('can clear a specific error', () => {
-        errors.record({
+        errors.fill({
             first_name: ['Value is required'],
             last_name: ['Value is required'],
         });
@@ -72,7 +73,7 @@ describe('Validator', () => {
     });
 
     it('can clear all errors of a given object', () => {
-        errors.record({
+        errors.fill({
             'person.first_name': ['Value is required'],
             'person.last_name': ['Value is required'],
             'dates.0.start_date': ['Value is required'],
@@ -99,7 +100,7 @@ describe('Validator', () => {
     });
 
     it('can accept an object of errors in its constructor', () => {
-        errors = new Validator({
+        errors.fill({
             first_name: ['Value is required'],
         });
 
@@ -107,8 +108,6 @@ describe('Validator', () => {
     });
 
     it('can assign an empty object in its constructor if no errors are passed', () => {
-        errors = new Validator();
-
         expect(errors.all()).toEqual({});
     });
 });

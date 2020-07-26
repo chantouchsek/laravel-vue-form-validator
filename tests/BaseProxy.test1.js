@@ -1,24 +1,19 @@
 import axios from 'axios';
-import BaseProxy from '../src/BaseProxy';
+import BaseProxy from './BaseProxy';
 import MockAdapter from 'axios-mock-adapter';
 import { reservedFieldNames } from '../src/util';
 
 let form;
 let mockAdapter;
+const proxy = new BaseProxy();
 
 describe('BaseProxy', () => {
     beforeEach(() => {
-        form = new BaseProxy({
-            field1: 'value 1',
-            field2: 'value 2',
-        });
-
         mockAdapter = new MockAdapter(axios);
     });
 
-    it('is initializable', () => {
-        form = new BaseProxy({}, {});
-        form = BaseProxy.create({});
+    it('should be to get all resource endpoint', () => {
+        form = proxy.all();
     });
 
     it('exposes the passed form field values as properties', () => {

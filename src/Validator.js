@@ -10,6 +10,22 @@ class Validator {
     }
 
     /**
+     * Add new error message for given attribute
+     *
+     * @param  {string} attribute
+     * @param  {string} message
+     * @return {void}
+     */
+    add(attribute, message) {
+        if (!this.has(attribute)) {
+            this.errors[attribute] = []
+        }
+        if (!this.errors[attribute].includes(message)) {
+            this.errors[attribute].push(message)
+        }
+    }
+
+    /**
      * Determine if any errors exists for the given field or object.
      *
      * @param {string|null|Array} field

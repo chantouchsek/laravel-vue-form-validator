@@ -137,6 +137,13 @@ export class BaseProxy extends BaseProxyInstance {
 
 export class FormValidatorInstance extends BaseProxyInstance {
     /**
+     * Get add error message by attribute
+     * @return {object}
+     * @memberOf FormValidatorInstance
+     */
+    add(attribute: string, message: string): object[];
+
+    /**
      * Get all errors object
      * @return {object}
      * @memberOf FormValidatorInstance
