@@ -309,6 +309,9 @@ Method                           | Description
 **has(attributes)**                        | To check multiple attributes given have any errors
 **first(attribute)**                        | To get errors message by an attribute
 
+## Todo
+### Add tests
+
 # Contact
 
 Twitter [@DevidCs83](https://twitter.com/DevidCs83)
