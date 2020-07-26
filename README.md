@@ -298,6 +298,17 @@ export default {
 Can use `vue-vlidator` for client-side validator that inspired by Laravel. 
 [Chantouch/vue-vlidator](https://github.com/Chantouch/vue-vlidator)
 
+### Errors methods available
+
+It can be called by `this.$errors.**`
+
+Method                           | Description
+-------------------------------- | --------------------------------------
+**all()**                        | To get all errors messages
+**has(attribute)**                        | To check an attribute as any error
+**has(attributes)**                        | To check multiple attributes given have any errors
+**first(attribute)**                        | To get errors message by an attribute
+
 # Contact
 
 Twitter [@DevidCs83](https://twitter.com/DevidCs83)
