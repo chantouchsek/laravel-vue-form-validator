@@ -110,21 +110,6 @@ class Validator {
     }
 
     /**
-     * Fill message by key/value
-     * @param attribute
-     * @param message
-     */
-    fillKey (attribute, message) {
-        const messages = this.get(attribute)
-        if (Array.isArray(message)) {
-            messages.unshift(...message)
-        } else if (typeof message === 'string') {
-            messages.unshift(message)
-        }
-        this.errors[attribute] = messages
-    }
-
-    /**
      * Flush error
      */
     flush () {
