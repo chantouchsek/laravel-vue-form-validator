@@ -162,7 +162,7 @@ export class FormValidatorInstance extends BaseProxyInstance {
      * Returns boolean value if any errors exists in page.
      *
      * @returns {boolean}
-     * @memberOf FormValidatorInstance
+     * @memberOf Validator
      */
     any(): boolean;
 
@@ -295,4 +295,6 @@ export class Validator extends FormValidatorInstance {
     processing: boolean;
     successful: boolean;
     errors: ErrorsOptions;
+
+    any(): boolean
 }
