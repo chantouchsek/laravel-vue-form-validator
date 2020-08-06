@@ -1,6 +1,6 @@
 {
   "name": "laravel-vue-form-validator",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "An easy way to validate forms using back end logic",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
@@ -56,6 +56,7 @@
     "babel-preset-minify": "^0.5.1",
     "escape-string-regexp": "^4.0.0",
     "jest": "^26.1.0",
+    "nuxt": "^2.14.1",
     "path": "^0.12.7",
     "prettier": "^2.0.5",
     "standard-version": "^8.0.2"
