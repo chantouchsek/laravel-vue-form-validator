@@ -149,14 +149,14 @@ class BaseProxy {
      * @param {Object|null} form The data that's being send to the API.
      */
     submit(requestType, url, form = null) {
-        const baseUrl = this.$baseUrl ? this.$baseUrl + url : url;
         this.__validateRequestType(requestType);
         Validator.flush();
         Validator.processing = true;
         Validator.successful = false;
         return new Promise((resolve, reject) => {
             const data = this.hasFiles(form) ? objectToFormData(form) : form;
-            this.$http[requestType](baseUrl + this.getParameterString(), data)
+            this.$http.defaults.baseURL = this.$baseUrl
+            this.$http[requestType](url + this.getParameterString(), data)
                 .then((response) => {
                     Validator.processing = false;
                     this.onSuccess(response.data);
