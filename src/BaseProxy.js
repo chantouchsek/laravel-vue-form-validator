@@ -89,7 +89,7 @@ class BaseProxy {
      * @returns {BaseProxy} The instance of the proxy.
      */
     setParameters(parameters) {
-        Object.keys(parameters).forEach(key => {
+        Object.keys(parameters).forEach((key) => {
             this.parameters[key] = parameters[key];
         });
 
@@ -121,7 +121,7 @@ class BaseProxy {
         if (parameters.length === 0) {
             this.parameters = [];
         } else {
-            parameters.forEach(parameter => {
+            parameters.forEach((parameter) => {
                 delete this.parameters[parameter];
             });
         }
@@ -157,7 +157,7 @@ class BaseProxy {
         return new Promise((resolve, reject) => {
             const data = this.hasFiles(form) ? objectToFormData(form) : form;
             this.$http[requestType](baseUrl + this.getParameterString(), data)
-                .then(response => {
+                .then((response) => {
                     Validator.processing = false;
                     this.onSuccess(response.data);
                     resolve(response.data);
@@ -288,8 +288,8 @@ class BaseProxy {
         const keys = Object.keys(this.parameters);
 
         const parameterStrings = keys
-            .filter(key => !!this.parameters[key])
-            .map(key => `${key}=${this.parameters[key]}`);
+            .filter((key) => !!this.parameters[key])
+            .map((key) => `${key}=${this.parameters[key]}`);
 
         return parameterStrings.length === 0 ? '' : `?${parameterStrings.join('&')}`;
     }

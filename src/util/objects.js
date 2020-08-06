@@ -58,7 +58,7 @@ export function cloneDeep(object) {
  */
 export function is(errors, error) {
     if (typeof error === 'string' && error.match(/[\*\!]/)) {
-        return errors.filter(w => isMatch(w, error)).length > 0;
+        return errors.filter((w) => isMatch(w, error)).length > 0;
     }
-    return Array.isArray(error) ? error.some(w => is(errors, w)) : errors.includes(error);
+    return Array.isArray(error) ? error.some((w) => is(errors, w)) : errors.includes(error);
 }

@@ -7,8 +7,8 @@ describe('Validator', () => {
         errors = Validator;
     });
     afterEach(() => {
-        errors.clear()
-    })
+        errors.clear();
+    });
 
     it('can determine if there are any errors', () => {
         expect(errors.any()).toBe(false);

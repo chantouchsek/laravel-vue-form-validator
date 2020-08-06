@@ -298,3 +298,10 @@ export class Validator extends FormValidatorInstance {
 
     any(): boolean
 }
+
+/**
+ * A sleep function to delay the transaction
+ * @param {number} ms
+ * @return {Promise<any>}
+ */
+export declare function sleep(ms: number): Promise<any>;

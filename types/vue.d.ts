@@ -2,10 +2,10 @@
  * Extends interfaces in Vue.js
  */
 
-import FormValidator from './index';
+import { Validator } from './';
 
 declare module 'vue/types/vue' {
-  interface Vue {
-    $errors: FormValidator;
-  }
+    interface Vue {
+        $errors: Validator;
+    }
 }

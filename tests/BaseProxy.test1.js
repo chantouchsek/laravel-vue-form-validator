@@ -100,7 +100,7 @@ describe('BaseProxy', () => {
     });
 
     it("can't be initialized with a reserved field name", () => {
-        reservedFieldNames.forEach(fieldName => {
+        reservedFieldNames.forEach((fieldName) => {
             expect(() => new BaseProxy({ [fieldName]: 'foo' })).toThrow();
         });
     });
@@ -122,7 +122,7 @@ describe('BaseProxy', () => {
     });
 
     it("can't be populated with a reserved field name", () => {
-        reservedFieldNames.forEach(fieldName => {
+        reservedFieldNames.forEach((fieldName) => {
             expect(() => new BaseProxy().populate({ [fieldName]: 'foo' })).toThrow();
         });
     });
@@ -238,7 +238,7 @@ describe('BaseProxy', () => {
         };
         form.field2 = file;
 
-        mockAdapter.onPost('http://example.com/posts').reply(request => {
+        mockAdapter.onPost('http://example.com/posts').reply((request) => {
             expect(request.data).toBeInstanceOf(FormData);
             expect(request.data.get('field1[foo]')).toBe('testFoo');
             expect(request.data.get('field1[bar][0]')).toBe('testBar1');
@@ -266,7 +266,7 @@ describe('BaseProxy', () => {
         form.field1 = [file1, file2];
         form.field1.__proto__ = Object.create(FileList.prototype);
 
-        mockAdapter.onPost('http://example.com/posts').reply(request => {
+        mockAdapter.onPost('http://example.com/posts').reply((request) => {
             expect(request.data).toBeInstanceOf(FormData);
             expect(request.data.get('field1[0]')).toEqual(file1);
             expect(request.data.get('field1[1]')).toEqual(file2);
@@ -288,7 +288,7 @@ describe('BaseProxy', () => {
         };
         form.field2 = file;
 
-        mockAdapter.onPost('http://example.com/posts').reply(request => {
+        mockAdapter.onPost('http://example.com/posts').reply((request) => {
             expect(request.data).toBeInstanceOf(FormData);
             expect(request.data.get('field1[foo]')).toBe('1');
             expect(request.data.get('field1[bar]')).toBe('0');
@@ -304,5 +304,5 @@ describe('BaseProxy', () => {
 
 function getFormDataKeys(formData) {
     // This is because the FormData.keys() is missing from the jsdom implementations.
-    return formData[Object.getOwnPropertySymbols(formData)[0]]._entries.map(e => e.name);
+    return formData[Object.getOwnPropertySymbols(formData)[0]]._entries.map((e) => e.name);
 }

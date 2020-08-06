@@ -16,28 +16,28 @@ Usage:
 
 const { resolve } = require('path');
 
-module.exports = function nuxtVueFormValidatorModule (moduleOptions = {}) {
-    const { vueFormValidator = {} } = this.options
+module.exports = function nuxtVueFormValidatorModule(moduleOptions = {}) {
+    const { vueFormValidator = {} } = this.options;
     const options = {
         ...vueFormValidator,
-        ...moduleOptions
-    }
-    const { prefix = null, baseURL = null } = options
+        ...moduleOptions,
+    };
+    const { prefix = null, baseURL = null } = options;
     let baseUrl = undefined;
     if (baseURL) {
-        baseUrl = prefix ? baseURL + prefix : baseURL
+        baseUrl = prefix ? baseURL + prefix : baseURL;
     } else if (process.env.API_HOST) {
-        baseUrl = prefix ? process.env.API_HOST + prefix : process.env.API_HOST
+        baseUrl = prefix ? process.env.API_HOST + prefix : process.env.API_HOST;
     } else if (process.env.API_URL) {
-        baseUrl = prefix ? process.env.API_URL + prefix : process.env.API_URL
+        baseUrl = prefix ? process.env.API_URL + prefix : process.env.API_URL;
     }
-    Object.assign(options, { baseUrl })
+    Object.assign(options, { baseUrl });
     this.addPlugin({
         src: resolve(__dirname, 'vue-form-validator-plugin.template.js'),
         fileName: 'vue-form-validator-plugin.js',
         options,
     });
-    this.options.build.transpile.push(/^escape-string-regexp/)
+    this.options.build.transpile.push(/^escape-string-regexp/);
 };
 
 // required by nuxt

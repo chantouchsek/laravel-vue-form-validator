@@ -19,7 +19,7 @@ class BaseTransformer {
      * @returns {Array} The transformed items.
      */
     static fetchCollection(items) {
-        return items.map(item => this.fetch(item));
+        return items.map((item) => this.fetch(item));
     }
 
     /**
@@ -30,7 +30,7 @@ class BaseTransformer {
      * @returns {Array} The transformed items.
      */
     static sendCollection(items) {
-        return items.map(item => this.send(item));
+        return items.map((item) => this.send(item));
     }
 }
 
