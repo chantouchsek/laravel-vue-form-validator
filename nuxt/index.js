@@ -22,14 +22,12 @@ module.exports = function nuxtVueFormValidatorModule(moduleOptions = {}) {
         ...vueFormValidator,
         ...moduleOptions,
     };
-    const { prefix = null, baseURL = null } = options;
-    let baseUrl = undefined;
-    if (baseURL) {
-        baseUrl = prefix ? baseURL + prefix : baseURL;
-    } else if (process.env.API_HOST) {
-        baseUrl = prefix ? process.env.API_HOST + prefix : process.env.API_HOST;
+    const { baseURL = null } = options;
+    let baseUrl = baseURL;
+    if (process.env.API_HOST) {
+        baseUrl = process.env.API_HOST;
     } else if (process.env.API_URL) {
-        baseUrl = prefix ? process.env.API_URL + prefix : process.env.API_URL;
+        baseUrl = process.env.API_URL;
     }
     Object.assign(options, { baseUrl });
     this.addPlugin({

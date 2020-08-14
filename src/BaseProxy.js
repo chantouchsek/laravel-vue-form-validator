@@ -2,8 +2,9 @@ import Validator from './Validator';
 import { isFile, objectToFormData } from './util';
 
 class BaseProxy {
-    static $baseUrl;
-    static $http;
+    static $baseUrl
+    static $http
+    static $prefix
     /**
      * Create a new BaseProxy instance.
      *
@@ -15,12 +16,28 @@ class BaseProxy {
         this.parameters = parameters;
     }
 
+    /**
+     * Get axios instance
+     * @return {*}
+     */
     get $http() {
         return BaseProxy.$http;
     }
 
+    /**
+     * get base url
+     * @return {*}
+     */
     get $baseUrl() {
         return BaseProxy.$baseUrl;
+    }
+
+    /**
+     * Get prefix
+     * @return {*}
+     */
+    get $prefix() {
+        return BaseProxy.$prefix;
     }
 
     /**
@@ -155,7 +172,7 @@ class BaseProxy {
         Validator.successful = false;
         return new Promise((resolve, reject) => {
             const data = this.hasFiles(form) ? objectToFormData(form) : form;
-            this.$http.defaults.baseURL = this.$baseUrl
+            url = this.$prefix + url
             this.$http[requestType](url + this.getParameterString(), data)
                 .then((response) => {
                     Validator.processing = false;

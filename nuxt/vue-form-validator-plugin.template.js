@@ -5,10 +5,13 @@ Vue.use(FormValidator);
 
 export default ({ app, $axios }) => {
     const [pluginOptions] = [<%= serialize(options) %>]
-    const { baseUrl } = pluginOptions || {}
+    const { baseUrl, prefix } = pluginOptions || {}
     app.$errors = Validator;
     BaseProxy.$http = $axios;
-    if (pluginOptions && baseUrl) {
+    if (baseUrl) {
         BaseProxy.$baseUrl = baseUrl
+    }
+    if (prefix) {
+        BaseProxy.$prefix = prefix
     }
 }
