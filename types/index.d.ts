@@ -24,6 +24,7 @@ export class BaseProxyInstance {
     constructor(endpoint: string, parameters: object);
 
     static $baseUrl: string;
+    static $prefix: string;
     static $http: AxiosStatic;
 }
 
@@ -37,17 +38,17 @@ export class BaseProxy extends BaseProxyInstance {
 
     /**
      * Get get base url
-     * @return {BaseProxyInstance.$baseUrl|Promise}
+     * @return {BaseProxyInstance.$baseUrl|string}
      * @memberOf BaseProxyInstance
      */
-    get $baseUrl(): AsyncFunction;
+    get $baseUrl(): string;
 
     /**
      * Get get prefix
-     * @return {BaseProxyInstance.$prefix|Promise}
+     * @return {BaseProxyInstance.$prefix|string}
      * @memberOf BaseProxyInstance
      */
-    get $prefix(): AsyncFunction;
+    get $prefix(): string;
 
     /**
      * Get all records
