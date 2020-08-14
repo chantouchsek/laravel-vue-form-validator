@@ -29,18 +29,25 @@ export class BaseProxyInstance {
 
 export class BaseProxy extends BaseProxyInstance {
     /**
-     * Get all records
+     * Get axios instance
      * @return {Promise|BaseProxyInstance.$http}
      * @memberOf BaseProxyInstance
      */
     get $http(): AsyncFunction;
 
     /**
-     * Get all records
+     * Get get base url
      * @return {BaseProxyInstance.$baseUrl|Promise}
      * @memberOf BaseProxyInstance
      */
     get $baseUrl(): AsyncFunction;
+
+    /**
+     * Get get prefix
+     * @return {BaseProxyInstance.$prefix|Promise}
+     * @memberOf BaseProxyInstance
+     */
+    get $prefix(): AsyncFunction;
 
     /**
      * Get all records
