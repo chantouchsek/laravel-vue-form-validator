@@ -14,7 +14,7 @@
     "test": "jest",
     "prepublish": "yarn build",
     "format": "prettier --write \"**/*.{css,js,vue}\"",
-    "release": "standard-version"
+    "release": "standard-version && git push --follow-tags"
   },
   "repository": {
     "type": "git",
