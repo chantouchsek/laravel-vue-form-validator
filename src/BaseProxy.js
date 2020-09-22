@@ -172,7 +172,7 @@ class BaseProxy {
         Validator.successful = false;
         return new Promise((resolve, reject) => {
             const data = this.hasFiles(form) ? objectToFormData(form) : form;
-            url = this.$prefix + url
+            url = this.$prefix ? this.$prefix + url : url
             if (this.$baseUrl) {
                 this.$http.defaults.baseURL = this.$baseUrl
             }
