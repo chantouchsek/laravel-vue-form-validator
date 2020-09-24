@@ -14,25 +14,15 @@ Usage:
     }
 */
 
-const { resolve } = require('path');
+const { resolve, join } = require('path');
+import merge from 'lodash.merge'
 
 module.exports = function nuxtVueFormValidatorModule(moduleOptions = {}) {
     const { vueFormValidator = {} } = this.options;
-    const options = {
-        ...vueFormValidator,
-        ...moduleOptions,
-    };
-    const { baseURL = null } = options;
-    let baseUrl = baseURL;
-    if (process.env.API_HOST) {
-        baseUrl = process.env.API_HOST;
-    } else if (process.env.API_URL) {
-        baseUrl = process.env.API_URL;
-    }
-    Object.assign(options, { baseUrl });
+    const options = merge({}, moduleOptions, vueFormValidator);
     this.addPlugin({
-        src: resolve(__dirname, 'vue-form-validator-plugin.template.js'),
-        fileName: 'vue-form-validator-plugin.js',
+        src: resolve(__dirname, 'vue-form-validator.template.js'),
+        fileName: join('vue-form-validator.js'),
         options,
     });
     this.options.build.transpile.push(/^escape-string-regexp/);

@@ -2,4 +2,4 @@ public/
 vendor/
 resources/assets/js/back/redactor/
 dist/
-/nuxt/vue-form-validator-plugin.template.js
+/nuxt/vue-form-validator.template.js

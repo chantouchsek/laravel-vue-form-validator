@@ -43,20 +43,15 @@ Put it on top of axios module
 ```js
 export default {
     modules: [
-       ['laravel-vue-form-validator/nuxt', { baseURL: process.env.API_URL, prefix: '/api' }],
+       'laravel-vue-form-validator/nuxt',
        '@nuxtjs/axios',
-    ],
-    // Or use as options
-    vueFormValidator: {
-        baseURL: process.env.API_URL,
-        prefix: '/api'
-    }
+    ]
 }
 ```
 
 ### Note:
 `baseURL` is required. <br />
-You can defined `baseURL` at .env just one of them
+You can define `baseURL` at .env just one of them
 ```bash
 API_URL=http://localhost::3000/api
 API_HOST=http://localhost::3000/api
@@ -71,7 +66,8 @@ export default {
 }
 ```
 
-you don't need to set baseUrl for baseProxy anymore
+### Advance usage
+-------------- Todo --------------
 
 ### Vue plugins
 
