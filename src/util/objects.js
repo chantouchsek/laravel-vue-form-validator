@@ -5,6 +5,12 @@ export function isArray(object) {
 }
 
 export function isFile(object) {
+    if (typeof window === 'undefined') {
+        return false
+    }
+    if (typeof File !== 'function' || typeof FileList !== 'function') {
+        return false
+    }
     return object instanceof File || object instanceof FileList;
 }
 

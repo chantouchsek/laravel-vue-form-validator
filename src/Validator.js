@@ -147,10 +147,10 @@ class Validator {
 
     /**
      * Check if form still has error
-     * @returns {function(): boolean}
+     * @returns {boolean}
      */
     isValid() {
-        return !!this.any();
+        return !this.any();
     }
 
     /**
