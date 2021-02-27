@@ -1,5 +1,6 @@
 import { PluginFunction } from 'vue';
 import { AxiosStatic } from 'axios';
+import './vue'
 
 type AsyncFunction = ((arg0: any) => Promise<any>) | Promise<any>;
 

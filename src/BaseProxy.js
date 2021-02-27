@@ -1,5 +1,8 @@
 import Validator from './Validator';
 import { isFile, objectToFormData } from './util';
+import qs from 'qs'
+
+const UNPROCESSABLE_ENTITY = 422
 
 class BaseProxy {
     static $http = null
@@ -51,6 +54,9 @@ class BaseProxy {
     post(item) {
         return this.submit('post', `/${this.endpoint}`, item);
     }
+    store(item) {
+        return this.post(item)
+    }
 
     /**
      * Send a PUT request to the given URL.
@@ -60,6 +66,10 @@ class BaseProxy {
      */
     put(id, item) {
         return this.submit('put', `/${this.endpoint}/${id}`, item);
+    }
+    putWithFile(id, payload = {}) {
+        payload._method = 'put'
+        return this.submit('post', `/${this.endpoint}/${id}`, payload)
     }
 
     /**
@@ -164,15 +174,24 @@ class BaseProxy {
                     this.onSuccess(response.data);
                     resolve(response.data);
                 })
-                .catch(({ response }) => {
-                    Validator.processing = false;
+                .catch((error) => {
+                    Validator.processing = false
+                    Validator.processing = false
+                    const { response } = error || {}
                     if (response) {
-                        this.onFail(response);
-                        reject(response.data);
+                        const { data, status } = response
+                        console.log(data)
+                        if (status === UNPROCESSABLE_ENTITY) {
+                            const errors = {}
+                            Object.assign(errors, data['errors'])
+                            this.onFail(errors)
+                            Validator.fill(errors)
+                        }
+                        reject(error)
                     } else {
-                        reject();
+                        reject(error)
                     }
-                });
+                })
         });
     }
 
@@ -234,13 +253,11 @@ class BaseProxy {
     /**
      * Handle a failed form submission.
      *
-     * @param {Object} response
+     * @param {Object} errors
      */
-    onFail(response) {
+    onFail(errors = {}) {
         Validator.successful = false;
-        if (response && response.data.errors) {
-            Validator.fill(response.data.errors);
-        }
+        Validator.fill(errors);
     }
 
     /**
@@ -288,14 +305,9 @@ class BaseProxy {
      *
      * @returns {string} The parameter string.
      */
-    getParameterString() {
-        const keys = Object.keys(this.parameters);
-
-        const parameterStrings = keys
-            .filter((key) => !!this.parameters[key])
-            .map((key) => `${key}=${this.parameters[key]}`);
-
-        return parameterStrings.length === 0 ? '' : `?${parameterStrings.join('&')}`;
+    getParameterString(url = null) {
+        const query = qs.stringify(this.parameters, { encode: false })
+        return query ? `${url}?${query}` : url
     }
 }
 

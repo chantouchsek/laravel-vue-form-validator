@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "build": "rm -rf dist/* && babel src -d dist",
-    "test": "jest",
+    "test": "jest --env=jsdom",
     "prepublish": "yarn build",
     "format": "prettier --write \"**/*.{css,js,vue}\"",
     "release": "standard-version && git push --follow-tags"
@@ -63,6 +63,8 @@
   },
   "dependencies": {
     "lodash.merge": "^4.6.2",
+    "qs": "^6.9.6",
+    "snakecase-keys": "^3.2.1",
     "vue": "^2.6.11"
   }
 }
