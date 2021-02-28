@@ -3,7 +3,7 @@ import snakecaseKeys from 'snakecase-keys'
 
 class PaginationTransformer extends BaseTransformer {
   static fetch(meta = {}) {
-    if (!meta.hasOwnProperty('pagination')) {
+    if (!Object.prototype.hasOwnProperty.call(meta, 'pagination')) {
       return snakecaseKeys(meta, { deep: true })
     }
     const { pagination = {}, include } = meta

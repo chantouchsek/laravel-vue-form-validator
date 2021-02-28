@@ -34,7 +34,7 @@ class Validator {
         if (isArray(field)) {
             return is(Object.keys(this.errors), field);
         }
-        let hasError = this.errors.hasOwnProperty(field);
+        let hasError = Object.prototype.hasOwnProperty.call(this.errors, field);
         if (!hasError) {
             const errors = Object.keys(this.errors).filter(
                 (e) => e.startsWith(`${field}.`) || e.startsWith(`${field}[`),
@@ -52,7 +52,7 @@ class Validator {
     first(field) {
         if (isArray(field)) {
             for (let i = 0; i < field.length; i++) {
-                if (!this.errors.hasOwnProperty(field[i])) {
+                if (!Object.prototype.hasOwnProperty.call(this.errors, field[i])) {
                     continue;
                 }
                 return this.first(field[i]);
