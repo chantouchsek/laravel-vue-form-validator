@@ -210,7 +210,7 @@ class BaseProxy {
     hasFiles(form) {
         for (const property in form) {
             if (!Object.prototype.hasOwnProperty.call(form, property)) {
-                continue;
+                return false;
             }
             if (this.hasFilesDeep(form[property])) {
                 return true;
