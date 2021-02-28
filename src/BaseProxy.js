@@ -1,11 +1,11 @@
 import Validator from './Validator';
 import { isFile, objectToFormData } from './util';
-import qs from 'qs'
+import qs from 'qs';
 
-const UNPROCESSABLE_ENTITY = 422
+const UNPROCESSABLE_ENTITY = 422;
 
 class BaseProxy {
-    static $http = null
+    static $http;
 
     /**
      * Create a new BaseProxy instance.
@@ -13,7 +13,7 @@ class BaseProxy {
      * @param {string} endpoint   The endpoint being used.
      * @param {Object} parameters The parameters for the request.
      */
-    constructor(endpoint, parameters = {}) {
+    constructor(endpoint, parameters) {
         this.endpoint = endpoint;
         this.parameters = parameters;
     }
@@ -54,8 +54,9 @@ class BaseProxy {
     post(item) {
         return this.submit('post', `/${this.endpoint}`, item);
     }
+
     store(item) {
-        return this.post(item)
+        return this.post(item);
     }
 
     /**
@@ -67,9 +68,10 @@ class BaseProxy {
     put(id, item) {
         return this.submit('put', `/${this.endpoint}/${id}`, item);
     }
-    putWithFile(id, payload = {}) {
-        payload._method = 'put'
-        return this.submit('post', `/${this.endpoint}/${id}`, payload)
+
+    putWithFile(id, payload) {
+        payload._method = 'put';
+        return this.submit('post', `/${this.endpoint}/${id}`, payload);
     }
 
     /**
@@ -114,9 +116,17 @@ class BaseProxy {
      *
      * @returns {BaseProxy} The instance of the proxy.
      */
-    setParameter(parameter, value) {
+    setParameter(parameter, value = '') {
+        if (!value) {
+            const options = {
+                comma: true,
+                allowDots: true,
+                ignoreQueryPrefix: true,
+            };
+            const params = qs.parse(parameter, options);
+            return this.setParameters(params);
+        }
         this.parameters[parameter] = value;
-
         return this;
     }
 
@@ -165,33 +175,32 @@ class BaseProxy {
         Validator.successful = false;
         return new Promise((resolve, reject) => {
             if (!this.$http) {
-                return reject(new Error('Axios must be set.'))
+                return reject(new Error('Axios must be set.'));
             }
             const data = this.hasFiles(form) ? objectToFormData(form) : form;
-            this.$http[requestType](url + this.getParameterString(), data)
+            this.$http[requestType](this.getParameterString(url), data)
                 .then((response) => {
                     Validator.processing = false;
                     this.onSuccess(response.data);
                     resolve(response.data);
                 })
                 .catch((error) => {
-                    Validator.processing = false
-                    Validator.processing = false
-                    const { response } = error || {}
+                    Validator.processing = false;
+                    Validator.processing = false;
+                    const { response } = error || {};
                     if (response) {
-                        const { data, status } = response
-                        console.log(data)
+                        const { data, status } = response;
                         if (status === UNPROCESSABLE_ENTITY) {
-                            const errors = {}
-                            Object.assign(errors, data['errors'])
-                            this.onFail(errors)
-                            Validator.fill(errors)
+                            const errors = {};
+                            Object.assign(errors, data['errors']);
+                            this.onFail(errors);
+                            Validator.fill(errors);
                         }
-                        reject(error)
+                        reject(error);
                     } else {
-                        reject(error)
+                        reject(error);
                     }
-                })
+                });
         });
     }
 
@@ -255,38 +264,9 @@ class BaseProxy {
      *
      * @param {Object} errors
      */
-    onFail(errors = {}) {
+    onFail(errors) {
         Validator.successful = false;
         Validator.fill(errors);
-    }
-
-    /**
-     * Get the error message(s) for the given field.
-     *
-     * @param field
-     */
-    hasError(field) {
-        return Validator.has(field);
-    }
-
-    /**
-     * Get the first error message for the given field.
-     *
-     * @param {string} field
-     * @return {string}
-     */
-    getError(field) {
-        return Validator.first(field);
-    }
-
-    /**
-     * Get the error messages for the given field.
-     *
-     * @param {string} field
-     * @return {array}
-     */
-    getErrors(field) {
-        return Validator.get(field);
     }
 
     __validateRequestType(requestType) {
@@ -295,7 +275,7 @@ class BaseProxy {
         if (!requestTypes.includes(requestType)) {
             throw new Error(
                 `\`${requestType}\` is not a valid request type, ` +
-                    `must be one of: \`${requestTypes.join('`, `')}\`.`
+                `must be one of: \`${requestTypes.join('`, `')}\`.`,
             );
         }
     }
@@ -305,9 +285,9 @@ class BaseProxy {
      *
      * @returns {string} The parameter string.
      */
-    getParameterString(url = null) {
-        const query = qs.stringify(this.parameters, { encode: false })
-        return query ? `${url}?${query}` : url
+    getParameterString(url) {
+        const query = qs.stringify(this.parameters, { encode: false });
+        return query ? `${url}?${query}` : url;
     }
 }
 

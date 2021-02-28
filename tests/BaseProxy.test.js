@@ -26,7 +26,7 @@ describe('BaseProxy', () => {
         try {
             await proxy.all()
         } catch (e) {
-            expect(e.message).toBe('Vue Api Queries, No http library provided.')
+            expect(e.message).toBe('Axios must be set.')
         }
     })
 
