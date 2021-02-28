@@ -1,5 +1,5 @@
 import Validator from './Validator';
-import { isFile, objectToFormData } from './util';
+import { isArray, isFile, objectToFormData } from './util';
 import qs from 'qs';
 
 const UNPROCESSABLE_ENTITY = 422;
@@ -209,8 +209,8 @@ class BaseProxy {
      */
     hasFiles(form) {
         for (const property in form) {
-            if (!form.hasOwnProperty(property)) {
-                return false;
+            if (!Object.prototype.hasOwnProperty.call(form, property)) {
+                continue;
             }
             if (this.hasFilesDeep(form[property])) {
                 return true;
@@ -230,17 +230,18 @@ class BaseProxy {
 
         if (typeof object === 'object') {
             for (const key in object) {
-                if (object.hasOwnProperty(key)) {
-                    if (isFile(object[key])) {
-                        return true;
-                    }
+                if (!Object.prototype.hasOwnProperty.call(object, key)) {
+                    continue
+                }
+                if (isFile(object[key])) {
+                    return true;
                 }
             }
         }
 
-        if (Array.isArray(object)) {
+        if (isArray(object)) {
             for (const key in object) {
-                if (object.hasOwnProperty(key)) {
+                if (Object.prototype.hasOwnProperty.call(object, key)) {
                     return this.hasFilesDeep(object[key]);
                 }
             }
@@ -286,8 +287,12 @@ class BaseProxy {
      * @returns {string} The parameter string.
      */
     getParameterString(url) {
-        const query = qs.stringify(this.parameters, { encode: false });
-        return query ? `${url}?${query}` : url;
+        const query = qs.stringify(this.parameters, {
+            encode: false,
+            skipNulls: true,
+            addQueryPrefix: true,
+        })
+        return `${url}${query}`
     }
 }
 

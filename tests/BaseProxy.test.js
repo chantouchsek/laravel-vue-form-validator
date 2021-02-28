@@ -106,6 +106,7 @@ describe('BaseProxy', () => {
             songs: [4, 5, 6],
             song: { name: 'Love song...' },
             pc: null,
+            __proto__: 'hello',
         })
         const items = [user2, { first_name: 'Chantouch', last_name: 'Sek', id: 2 }]
         mockAdapter
@@ -136,6 +137,18 @@ describe('BaseProxy', () => {
             .setParameters({ first_name: 'Dara', last_name: 'Sek' })
             .removeParameter('first_name')
             .removeParameters(['last_name'])
+            .all()
+        expect(data).toEqual(items)
+    })
+    it('It should remove "null" or undefined parameters from query', async () => {
+        const items = [
+            { first_name: 'Dara', last_name: 'Hok', id: 1 },
+            { first_name: 'Chantouch', last_name: 'Sek', id: 2 },
+        ]
+        mockAdapter.onGet('/posts?id=1').reply(200, { data: items })
+        const { data } = await proxy
+            .setParameter('id', 1)
+            .setParameters({ name: undefined, date: null })
             .all()
         expect(data).toEqual(items)
     })
@@ -184,15 +197,14 @@ describe('BaseProxy', () => {
 
     it('transforms the data to a FormData object if there is a File', async () => {
         const file = new File(['hello world!'], 'myfile')
-        const form = { field1: {}, field2: {}, files: [] }
+        const form = { field1: {}, field2: {}, field3: [] }
         form.field1 = {
             foo: 'testFoo',
             bar: ['testBar1', 'testBar2'],
             baz: new Date(Date.UTC(2012, 3, 13, 2, 12)),
         }
         form.field2 = file
-        form.files = [{ file }]
-
+        form.field3.push(file)
         mockAdapter.onPost('/posts').reply((request) => {
             expect(request.data).toBeInstanceOf(FormData)
             expect(request.data.get('field1[foo]')).toBe('testFoo')
@@ -200,7 +212,7 @@ describe('BaseProxy', () => {
             expect(request.data.get('field1[bar][1]')).toBe('testBar2')
             expect(request.data.get('field1[baz]')).toBe('2012-04-13T02:12:00.000Z')
             expect(request.data.get('field2')).toEqual(file)
-            expect(request.data.get('files[0][file]')).toEqual(file)
+            expect(request.data.get('field3[0]')).toEqual(file)
 
             expect(getFormDataKeys(request.data)).toEqual([
                 'field1[foo]',
@@ -208,7 +220,7 @@ describe('BaseProxy', () => {
                 'field1[bar][1]',
                 'field1[baz]',
                 'field2',
-                'files[0][file]',
+                'field3[0]',
             ])
             return [200, {}]
         })
