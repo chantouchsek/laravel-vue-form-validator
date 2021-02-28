@@ -34,10 +34,10 @@ class Validator {
         if (isArray(field)) {
             return is(Object.keys(this.errors), field);
         }
-        let hasError = this.errors.hasOwnProperty(field);
+        let hasError = Object.prototype.hasOwnProperty.call(this.errors, field);
         if (!hasError) {
             const errors = Object.keys(this.errors).filter(
-                (e) => e.startsWith(`${field}.`) || e.startsWith(`${field}[`)
+                (e) => e.startsWith(`${field}.`) || e.startsWith(`${field}[`),
             );
             hasError = errors.length > 0;
         }
@@ -52,7 +52,7 @@ class Validator {
     first(field) {
         if (isArray(field)) {
             for (let i = 0; i < field.length; i++) {
-                if (!this.errors.hasOwnProperty(field[i])) {
+                if (!Object.prototype.hasOwnProperty.call(this.errors, field[i])) {
                     continue;
                 }
                 return this.first(field[i]);
@@ -80,8 +80,21 @@ class Validator {
     /**
      * Determine if we have any errors.
      */
-    any() {
-        return Object.keys(this.errors).length > 0;
+    any(fields = [], returnObject = false) {
+        if (returnObject) {
+            const errors = {};
+            if (!fields.length) {
+                return {};
+            }
+            fields.forEach((key) => (errors[key] = this.get(key)));
+            return errors;
+        }
+        if (!fields.length) {
+            return Object.keys(this.errors).length > 0;
+        }
+        const errors = {};
+        fields.forEach((key) => (errors[key] = this.get(key)));
+        return Object.keys(errors).length > 0;
     }
 
     /**
@@ -105,8 +118,16 @@ class Validator {
      * Fill the error object
      * @param errors
      */
-    fill(errors = {}) {
-        this.errors = errors;
+    fill(errors) {
+        for (const error in errors) {
+            if (!Object.prototype.hasOwnProperty.call(errors, error)) {
+                continue
+            }
+            if (!(errors[error] instanceof Array)) {
+                errors[error] = [errors[error]]
+            }
+        }
+        this.errors = errors
     }
 
     /**
@@ -128,7 +149,7 @@ class Validator {
             attribute.map((field) => {
                 Object.keys(errors)
                     .filter(
-                        (e) => e === field || e.startsWith(`${field}.`) || e.startsWith(`${field}[`)
+                        (e) => e === field || e.startsWith(`${field}.`) || e.startsWith(`${field}[`),
                     )
                     .forEach((e) => delete errors[e]);
             });
@@ -138,7 +159,7 @@ class Validator {
                     (e) =>
                         e === attribute ||
                         e.startsWith(`${attribute}.`) ||
-                        e.startsWith(`${attribute}[`)
+                        e.startsWith(`${attribute}[`),
                 )
                 .forEach((e) => delete errors[e]);
         }

@@ -33,5 +33,6 @@ class FormValidator {
 export { default as Validator } from './Validator';
 export { default as BaseProxy } from './BaseProxy';
 export { default as BaseTransformer } from './BaseTransformer';
+export { default as PaginationTransformer } from './PaginationTransformer';
 export { sleep, cloneDeep, isFile, isArray, objectToFormData, merge } from './util';
 export default new FormValidator();

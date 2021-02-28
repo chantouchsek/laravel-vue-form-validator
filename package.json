@@ -1,6 +1,6 @@
 {
   "name": "laravel-vue-form-validator",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "An easy way to validate forms using back end logic",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "build": "rm -rf dist/* && babel src -d dist",
-    "test": "jest",
+    "test": "jest --env=jsdom",
     "prepublish": "yarn build",
     "format": "prettier --write \"**/*.{css,js,vue}\"",
     "release": "standard-version && git push --follow-tags"
@@ -62,7 +62,10 @@
     "standard-version": "^9.0.0"
   },
   "dependencies": {
+    "camelcase-keys": "^6.2.2",
     "lodash.merge": "^4.6.2",
+    "qs": "^6.9.6",
+    "snakecase-keys": "^3.2.1",
     "vue": "^2.6.11"
   }
 }

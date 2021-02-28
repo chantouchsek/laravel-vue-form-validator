@@ -9,3 +9,9 @@ declare module 'vue/types/vue' {
         $errors: Validator;
     }
 }
+
+declare module 'vue/types/options' {
+    interface ComponentOptions<V extends Vue> {
+        $errors?: Validator;
+    }
+}

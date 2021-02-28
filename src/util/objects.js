@@ -16,8 +16,12 @@ export function isFile(object) {
 
 export function merge(a, b) {
     for (const key in b) {
-        a[key] = cloneDeep(b[key]);
+        if (!Object.prototype.hasOwnProperty.call(b, key)) {
+            continue
+        }
+        a[key] = cloneDeep(b[key])
     }
+    return a
 }
 
 export function cloneDeep(object) {
@@ -33,7 +37,7 @@ export function cloneDeep(object) {
         const clone = [];
 
         for (const key in object) {
-            if (object.hasOwnProperty(key)) {
+            if (Object.prototype.hasOwnProperty.call(object, key)) {
                 clone[key] = cloneDeep(object[key]);
             }
         }
@@ -45,7 +49,7 @@ export function cloneDeep(object) {
         const clone = {};
 
         for (const key in object) {
-            if (object.hasOwnProperty(key)) {
+            if (Object.prototype.hasOwnProperty.call(object, key)) {
                 clone[key] = cloneDeep(object[key]);
             }
         }
