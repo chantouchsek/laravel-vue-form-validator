@@ -198,7 +198,7 @@ class BaseProxy {
                         }
                         reject(error);
                     } else {
-                        reject(error);
+                        reject();
                     }
                 });
         });
