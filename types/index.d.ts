@@ -293,3 +293,9 @@ export class BaseTransformer {
  * @return {Promise<any>}
  */
 export declare function sleep(ms: number): Promise<any>;
+
+declare class FormValidator {
+    static install: PluginFunction<any>;
+}
+
+export default FormValidator;
