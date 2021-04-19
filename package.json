@@ -39,7 +39,7 @@
   "homepage": "https://github.com/chantouchsek/laravel-vue-form-validator",
   "optionalDependencies": {
     "axios": ">=0.15 <1.0",
-    "escape-string-regexp": "^4.0.0"
+    "escape-string-regexp": "^5.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
@@ -54,7 +54,7 @@
     "babel-plugin-transform-es2017-object-entries": "0.0.5",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-minify": "^0.5.1",
-    "escape-string-regexp": "^4.0.0",
+    "escape-string-regexp": "^5.0.0",
     "jest": "^26.1.0",
     "nuxt": "^2.14.1",
     "path": "^0.12.7",
