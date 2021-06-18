@@ -5,6 +5,8 @@ import './vue'
 type AsyncFunction = ((arg0: any) => Promise<any>) | Promise<any>;
 
 export class BaseProxy {
+    public endpoint: string
+    public parameters: any
     constructor(endpoint: string, parameters: object);
     static $http: AxiosStatic;
     /**
@@ -83,7 +85,7 @@ export class BaseProxy {
      * @param {string|string[]} value
      * @memberOf BaseProxy
      */
-    setParameter(key: string, value?: string | string[]): BaseProxy
+    setParameter(key: string, value?: number | string | string[]): BaseProxy
     setParameter(key: string): BaseProxy
 
     /**
