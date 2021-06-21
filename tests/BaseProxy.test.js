@@ -72,15 +72,6 @@ describe('BaseProxy', () => {
         expect(data).toEqual(items)
     })
 
-    it('Check network server return 500', async () => {
-        mockAdapter.onGet('/posts').networkError()
-        try {
-            await proxy.all()
-        } catch (e) {
-            expect(e.message).toBe('Network Error')
-        }
-    })
-
     it('will fetch all records with query params', async () => {
         const items = [
             { first_name: 'Dara', last_name: 'Hok', id: 1 },
