@@ -76,7 +76,7 @@ export class BaseProxy {
      * @param parameters
      * @memberOf BaseProxy
      */
-    setParameters(parameters?: object): BaseProxy
+    setParameters(parameters?: object): this
 
     /**
      * Set parameter by key and value provided for query string url
@@ -85,8 +85,8 @@ export class BaseProxy {
      * @param {string|string[]} value
      * @memberOf BaseProxy
      */
-    setParameter(key: string, value?: number | string | string[]): BaseProxy
-    setParameter(key: string): BaseProxy
+    setParameter(key: string, value?: number | string | string[]): this
+    setParameter(key: string): this
 
     /**
      * To remove parameters
@@ -94,8 +94,8 @@ export class BaseProxy {
      * @param {Array} parameters
      * @memberOf BaseProxy
      */
-    removeParameters(parameters?: string[]): BaseProxy
-    removeParameters(): BaseProxy
+    removeParameters(parameters?: string[]): this
+    removeParameters(): this
 
     /**
      * To remove param for query string
@@ -103,7 +103,7 @@ export class BaseProxy {
      * @param parameter
      * @memberOf BaseProxy
      */
-    removeParameter(parameter?: string): BaseProxy
+    removeParameter(parameter?: string): this
 
     /**
      * The submit method for send to server api
